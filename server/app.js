@@ -3,11 +3,20 @@ import express, { json, urlencoded } from "express";
 import { join } from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
+import mongoose from "mongoose";
 
 import indexRouter from "./routes/index";
 import pingRouter from "./routes/ping";
 
 var app = express();
+
+// Connect to database:
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
+
+// Log connection status to console:
+mongoose.connection.on("connected", () => console.log("Successfully connected to db."));
+mongoose.connection.on("disconnected", () => console.log("Successfully disconnected from db."));
+mongoose.connection.on("error", () => console.log("Error connecting to db."));
 
 app.use(logger("dev"));
 app.use(json());
