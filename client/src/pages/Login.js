@@ -3,8 +3,6 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core";
-import withStyles from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Image from "../assets/bg-img.png";
 
@@ -54,7 +52,7 @@ const useStyles = makeStyles(theme => ({
     backgroundPosition: "center",
     backgroundSize: "100% 100%",
     padding: "50px",
-    height: "100vh",
+    height: "100vh"
   },
   form: {
     textAlign: "center",
@@ -108,6 +106,8 @@ export default function Signup() {
               name="email"
               autoComplete="email"
               autoFocus
+              InputLabelProps={{ style: { fontFamily: "Open Sans" } }}
+              InputProps={{ style: { fontFamily: "Open Sans" } }}
             />
             <TextField
               type="password"
@@ -119,6 +119,9 @@ export default function Signup() {
               label="Password"
               name="password"
               autoComplete="password"
+              FormHelperTextProps={{ style: { fontFamily: "Open Sans" } }}
+              InputLabelProps={{ style: { fontFamily: "Open Sans" } }}
+              inputProps={{ minLength: 6 }}
             />
             <Button
               type="submit"

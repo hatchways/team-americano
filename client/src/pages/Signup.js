@@ -3,16 +3,11 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core";
-import withStyles from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Image from "../assets/bg-img.png";
 import Input from "@material-ui/core/Input";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import FilledInput from "@material-ui/core/FilledInput";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
@@ -46,7 +41,7 @@ const useStyles = makeStyles(theme => ({
   },
   speechIcon: {
     color: "white",
-    textAlign: "center",
+    textAlign: "center"
   },
   motto: {
     display: "inline-block",
@@ -62,13 +57,22 @@ const useStyles = makeStyles(theme => ({
     backgroundPosition: "center",
     backgroundSize: "100% 100%",
     padding: "50px",
-    height: "100vh",
+    height: "100vh"
   },
   form: {
     textAlign: "center",
     display: "inline-block",
     marginLeft: "50%",
     marginTop: "20%"
+  },
+  input: {
+    fontFamily: "Open Sans"
+  },
+  languageLabel: {
+    fontFamily: "Open Sans"
+  },
+  menuItem: {
+    fontFamily: "Open Sans"
   },
   flag: {
     width: "5%",
@@ -131,6 +135,8 @@ export default function Signup() {
               name="email"
               autoComplete="email"
               autoFocus
+              InputLabelProps={{ style: { fontFamily: "Open Sans" } }}
+              InputProps={{ style: { fontFamily: "Open Sans" } }}
             />
             <TextField
               type="password"
@@ -143,21 +149,51 @@ export default function Signup() {
               helperText="At least 6 characters."
               name="password"
               autoComplete="password"
+              FormHelperTextProps={{ style: { fontFamily: "Open Sans" } }}
+              InputLabelProps={{ style: { fontFamily: "Open Sans" } }}
               inputProps={{ minLength: 6 }}
             />
             <FormControl fullWidth>
-              <InputLabel shrink htmlFor="primaryLanguage">
+              <InputLabel
+                shrink
+                htmlFor="primaryLanguage"
+                className={classes.languageLabel}
+              >
                 Select primary language.
               </InputLabel>
               <Select
                 value={values.language}
                 onChange={handleChange}
-                input={<Input name="language" id="primaryLanguage" />}
+                input={
+                  <Input
+                    className={classes.input}
+                    name="language"
+                    id="primaryLanguage"
+                  />
+                }
                 name="language"
               >
-                <MenuItem value={"eng"}><img className={classes.flag} src={require("../assets/united-kingdom.svg")}/>English</MenuItem>
-                <MenuItem value={"fr"}><img className={classes.flag} src={require("../assets/france.svg")}/>Francais</MenuItem>
-                <MenuItem value={"spa"}><img className={classes.flag} src={require("../assets/spain.svg")}/>Espagnol</MenuItem>
+                <MenuItem value={"eng"} className={classes.menuItem}>
+                  <img
+                    className={classes.flag}
+                    src={require("../assets/united-kingdom.svg")}
+                  />
+                  English
+                </MenuItem>
+                <MenuItem value={"fr"} className={classes.menuItem}>
+                  <img
+                    className={classes.flag}
+                    src={require("../assets/france.svg")}
+                  />
+                  Francais
+                </MenuItem>
+                <MenuItem value={"spa"} className={classes.menuItem}>
+                  <img
+                    className={classes.flag}
+                    src={require("../assets/spain.svg")}
+                  />
+                  Espagnol
+                </MenuItem>
               </Select>
             </FormControl>
 
