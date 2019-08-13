@@ -3,7 +3,6 @@
 // ==============================================
 
 // Dependencies:
-const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
@@ -16,7 +15,6 @@ exports.registerUser = async (req, res, next) => {
   // Create new user:
   try {
     const user = new User({
-      _id: new mongoose.Types.ObjectId(),
       ...req.body
     });
 

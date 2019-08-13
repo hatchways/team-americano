@@ -7,12 +7,10 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 // Get shcema and objectId:
-const schema = mongoose.Schema;
-const objectId = schema.Types.ObjectId;
+const Schema = mongoose.Schema;
 
 // User Schema:
-const userSchema = new schema({
-  _id: objectId,
+const userSchema = new Schema({
   email: {
     type: String,
     trim: true,
