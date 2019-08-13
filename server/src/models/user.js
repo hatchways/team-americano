@@ -7,12 +7,11 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 // Get shcema and objectId:
-const schema = mongoose.Schema;
-const objectId = schema.Types.ObjectId;
+const Schema = mongoose.Schema;
+const objectId = Schema.Types.ObjectId;
 
 // User Schema:
-const userSchema = new schema({
-  _id: objectId,
+const userSchema = new Schema({
   email: {
     type: String,
     trim: true,
@@ -43,7 +42,15 @@ const userSchema = new schema({
     type: String,
     default: "en",
     lowercase: true
-  }
+  },
+  contacts: [{
+    type: objectId,
+    ref: "User"
+  }],
+  conversations: [{
+    type: objectId,
+    ref: "Conversation"
+  }]
 });
 
 // User Methods:

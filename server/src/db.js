@@ -11,6 +11,12 @@ mongoose.connect(process.env.DATABASE_URL, {
   useCreateIndex: true
 });
 
+// Require Models:
+require("../src/models/user");
+require("../src/models/message");
+require("../src/models/conversation");
+require("../src/models/invitation");
+
 // Log connection status to console:
 mongoose.connection.on("connected", () => console.log("Successfully connected to db."));
 mongoose.connection.on("disconnected", () => console.log("Successfully disconnected from db."));

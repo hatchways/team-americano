@@ -6,12 +6,11 @@
 const mongoose = require("mongoose");
 
 // Get schema and objectId:
-const schema = mongoose.Schema;
-const objectId = schema.Types.ObjectId;
+const Schema = mongoose.Schema;
+const objectId = Schema.Types.ObjectId;
 
 // Invitation Schema:
 const invitationSchema = new Schema({
-  _id: objectId,
   requester: {
     type: objectId,
     ref: "User",
