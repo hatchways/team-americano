@@ -8,7 +8,8 @@ const mongoose = require("mongoose");
 // Connect to database:
 mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
-  useCreateIndex: true
+  useCreateIndex: true,
+  useFindAndModify: false
 });
 
 // Require Models:

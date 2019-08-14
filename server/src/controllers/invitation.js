@@ -13,6 +13,7 @@ exports.getPendingInvitations = async (req, res, next) => {
   try {
     const data = await Invitation
       .find({ requestee: req.user._id, status: "Pending" })
+      .select("-requestee")
       .populate("requester", '_id name email');
 
     return res.status(200).json({
@@ -70,8 +71,15 @@ exports.respondToInvitation = async (req, res, next) => {
   // Update status of invitation:
   try {
     const statuses = ["Accepted", "Ignored"];
+
     if (!statuses.includes(req.body.status)) {
       throw new Error("Invalid status.");
+    }
+
+    const invitation = await Invitation.findById(req.params.invitationId);
+
+    if (invitation.status === "Accepted") {
+      throw new Error("Cannot change status of accepted invitation.");
     }
 
     await Invitation.findByIdAndUpdate(req.params.invitationId, {
@@ -80,13 +88,8 @@ exports.respondToInvitation = async (req, res, next) => {
 
     if (req.body.status === "Accepted") {
       // Add users to contacts:
-      const addContact = async (u1, u2) => {
-        await User.findByIdAndUpdate(u1, {
-          $push: { contacts: u2 }
-        });
-      };
-      addContact(req.user._id, req.params.userId);
-      addContact(req.params.userId, req.user._id);
+      await User.findByIdAndUpdate(req.user._id, { $push: { contacts: invitation.requester }});
+      await User.findByIdAndUpdate(invitation.requester, { $push: { contacts: req.user._id }});
     }
 
     return res.status(200).json({
