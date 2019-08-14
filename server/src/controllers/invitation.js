@@ -31,10 +31,20 @@ exports.getPendingInvitations = async (req, res, next) => {
 exports.sendInvitation = async (req, res, next) => {
   // Create a new invitation to specified user:
   try {
-    const user = await User.findById(req.params.userId);
+    if (req.params.userId == req.user._id) {
+      throw new Error("User cannot invite themselves.");
+    }
+
+    const user = await User.countDocuments({ _id: req.params.userId });
 
     if (!user) {
       throw new Error("Specified user does not exist.");
+    }
+
+    const count = await Invitation.countDocuments({ requester: req.user._id, requestee: req.params.userId });
+
+    if (count) {
+      throw new Error("Invitation already exists.");
     }
 
     const invitation = new Invitation({
@@ -59,9 +69,25 @@ exports.sendInvitation = async (req, res, next) => {
 exports.respondToInvitation = async (req, res, next) => {
   // Update status of invitation:
   try {
+    const statuses = ["Accepted", "Ignored"];
+    if (!statuses.includes(req.body.status)) {
+      throw new Error("Invalid status.");
+    }
+
     await Invitation.findByIdAndUpdate(req.params.invitationId, {
       status: req.body.status
     });
+
+    if (req.body.status === "Accepted") {
+      // Add users to contacts:
+      const addContact = async (u1, u2) => {
+        await User.findByIdAndUpdate(u1, {
+          $push: { contacts: u2 }
+        });
+      };
+      addContact(req.user._id, req.params.userId);
+      addContact(req.params.userId, req.user._id);
+    }
 
     return res.status(200).json({
       message: "Successfully responded to invitation."
