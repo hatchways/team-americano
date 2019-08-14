@@ -67,37 +67,61 @@ exports.sendInvitation = async (req, res, next) => {
   }
 }
 
-exports.respondToInvitation = async (req, res, next) => {
-  // Update status of invitation:
+exports.acceptInvitation = async (req, res, next) => {
+  // Update Status of Invitation to accepted:
   try {
-    const statuses = ["Accepted", "Ignored"];
-
-    if (!statuses.includes(req.body.status)) {
-      throw new Error("Invalid status.");
-    }
-
     const invitation = await Invitation.findById(req.params.invitationId);
 
     if (invitation.status === "Accepted") {
-      throw new Error("Cannot change status of accepted invitation.");
+      throw new Error("User can't change status of accepted invitation.");
     }
 
-    await Invitation.findByIdAndUpdate(req.params.invitationId, {
-      status: req.body.status
-    });
-
-    if (req.body.status === "Accepted") {
-      // Add users to contacts:
-      await User.findByIdAndUpdate(req.user._id, { $push: { contacts: invitation.requester }});
-      await User.findByIdAndUpdate(invitation.requester, { $push: { contacts: req.user._id }});
+    if (invitation.requestee !== req.user._id) {
+      throw new Error("Unauthorized user.");
     }
+
+    await Invitation.findByIdAndUpdate(req.params.invitationId, { status: "Accepted" });
+
+    // Add users to each others contacts list:
+    const addContact = async (u1, u2) => {
+      await User.findByIdAndUpdate(u1, { $push: { contacts: u2 }});
+    }
+
+    addContact(req.user._id, invitation.requester);
+    addContact(invitation.requester, req.user._id);
 
     return res.status(200).json({
-      message: "Successfully responded to invitation."
+      message: "Successfully accepted chat invitation."
+    })
+  } catch (e) {
+    res.status(500).json({
+      message: "Error(s) accepting chat invitation.",
+      errors: e
     });
-  } catch(e) {
+  }
+}
+
+exports.ignoreInvitation = async (req, res, next) => {
+  // Update status of invitation to declined:
+  try {
+    const invitation = Invitation.findById(req.params.invitationId);
+
+    if (invitation.status === "Accepted") {
+      throw new Error("User can't change status of accepted invitation.");
+    }
+
+    if (invitation.requestee !== req.user._id) {
+      throw new Error("Unauthorized user.");
+    }
+
+    await Invitation.findByIdAndUpdate(req.params.invitationId, { status: "Ignored" });
+
+    return res.status(200).json({
+      message: "Successfully ignored chat invitation."
+    });
+  } catch (e) {
     return res.status(500).json({
-      message: "Error(s) responding to invitation.",
+      message: "Error(s) ignoring chat invitation.",
       errors: e
     });
   }
