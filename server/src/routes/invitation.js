@@ -15,5 +15,7 @@ const router = express.Router();
 
 // Create Route Handlers:
 router.get("/", passport.authenticate('jwt', { session: false }), invitationController.getPendingInvitations);
+router.post("/:userId", passport.authenticate('jwt', { session: false }), invitationController.sendInvitation);
+router.put("/:invitationId", passport.authenticate('jwt', { session: false }), invitationController.respondToInvitation);
 
 module.exports = router;
