@@ -7,6 +7,6 @@ router.get("/welcome", function(req, res, next) {
 
 router.use('/api/auth', require('./auth'));
 router.use('/api/invitation', require('./invitation'));
-router.use('/api/user', require('../routes/user'));
+router.use('/api/user', require('./user'));
 
 module.exports = router;
