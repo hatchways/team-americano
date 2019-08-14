@@ -14,16 +14,16 @@ const invitationSchema = new Schema({
   requester: {
     type: objectId,
     ref: "User",
-    required: "A requester is required to create an invitation."
+    required: [true, "A requester is required to create an invitation."]
   },
   requestee: {
     type: objectId,
     ref: "User",
-    required: "A requestee is required to create an invitation."
+    required: [true, "A requestee is required to create an invitation."]
   },
   status: {
     type: String,
-    required: "A status is required to create an invitation.",
+    required: [true, "A status is required to create an invitation."],
     default: "Pending",
     validate: [(status) => {
       const statuses = ["Pending", "Accepted", "Ignored"];

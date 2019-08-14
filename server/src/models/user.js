@@ -17,7 +17,7 @@ const userSchema = new Schema({
     trim: true,
     lowercase: true,
     unique: true,
-    required: "Your email address is required to create an account.",
+    required: [true, "Your email address is required to create an account."],
     validate: [(email) => {
       const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
       return re.test(email);
@@ -26,14 +26,14 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: "A password is required to create an account.",
+    required: [true, "A password is required to create an account."],
     validate: [(password) => {
       return password.length >= 6;
     }, "Your password must be atleast six characters long."]
   },
   name: {
     type: String,
-    required: "Your name is required to create an account.",
+    required: [true, "Your name is required to create an account."],
     validate: [(name) => {
       return name.length > 0;
     }, "Your name can't be empty."]
