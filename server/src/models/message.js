@@ -17,12 +17,13 @@ const messageSchema = new Schema({
   },
   content: {
     type: String,
-    validate: [(content) => content.length >= 1, "Message can't be empty."]
+    validate: [(content) => content.length >= 1, "Message can't be empty."],
+    required: [true, "Message must have content."]
   },
   sender: {
     type: objectId,
     ref: "User",
-    required: "Message must have a sender."
+    required: [true, "Message must have a sender."]
   }
 });
 

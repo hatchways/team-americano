@@ -14,7 +14,7 @@ const conversationSchema = new Schema({
   members: [{
     type: objectId,
     ref: "User",
-    required: "A conversation must have members."
+    required: [true, "A conversation must have members."]
   }],
   messages: [{
     type: objectId,
