@@ -19,9 +19,7 @@ exports.registerUser = async (req, res, next) => {
     });
 
     const result = await user.save();
-    const token = await jwt.sign(user, privateKey, signOptions);
-    // Return user and JWT token:
-    res.set("Authorization", "Bearer " + token);
+    const token = await jwt.sign({ id: user._id }, privateKey, signOptions);
 
     return res.status(201).json({
       message: "Successfully registered new user.",
@@ -30,7 +28,8 @@ exports.registerUser = async (req, res, next) => {
         name: result.name,
         _id: result._id,
         language: result.language
-      }
+      },
+      token
     });
 
   } catch (e) {
@@ -52,10 +51,7 @@ exports.loginUser = async (req, res, next) => {
       }
     });
 
-    const token = jwt.sign(user, privateKey, signOptions);
-
-    // Return user and JWT:
-    res.set("Authorization", "Bearer " + token);
+    const token = jwt.sign({ id: user._id }, privateKey, signOptions);
 
     res.status(200).json({
       message: "Successfully logged into account.",
@@ -64,7 +60,8 @@ exports.loginUser = async (req, res, next) => {
         name: user.name,
         language: user.language,
         _id: user._id
-      }
+      },
+      token
     });
 
   } catch (e) {

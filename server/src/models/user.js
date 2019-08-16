@@ -8,6 +8,7 @@ const bcrypt = require("bcrypt");
 
 // Get shcema and objectId:
 const Schema = mongoose.Schema;
+const objectId = Schema.Types.ObjectId;
 
 // User Schema:
 const userSchema = new Schema({
@@ -41,7 +42,15 @@ const userSchema = new Schema({
     type: String,
     default: "en",
     lowercase: true
-  }
+  },
+  contacts: [{
+    type: objectId,
+    ref: "User"
+  }],
+  conversations: [{
+    type: objectId,
+    ref: "Conversation"
+  }]
 });
 
 // User Methods:
