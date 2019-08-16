@@ -19,7 +19,8 @@ const invitationSchema = new Schema({
   requestee: {
     type: objectId,
     ref: "User",
-    required: [true, "A requestee is required to create an invitation."]
+    required: [true, "A requestee is required to create an invitation."],
+    index: true
   },
   status: {
     type: String,

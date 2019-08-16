@@ -31,7 +31,8 @@ exports.registerUser = async (req, res, next) => {
         name: result.name,
         _id: result._id,
         language: result.language
-      }
+      },
+      token
     });
   } catch (e) {
     console.log(e);
@@ -65,7 +66,8 @@ exports.loginUser = async (req, res, next) => {
         name: user.name,
         language: user.language,
         _id: user._id
-      }
+      },
+      token
     });
   } catch (e) {
     return res.status(500).json({
