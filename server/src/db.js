@@ -14,6 +14,9 @@ mongoose.connect(process.env.DATABASE_URL, {
   useFindAndModify: false
 }).catch(e => console.log(e));
 
+// Clear Database:
+mongoose.connection.dropDatabase();
+
 // Log connection status to console:
 mongoose.connection.on("connected", () => console.log("Successfully connected to db."));
 mongoose.connection.on("disconnected", () => console.log("Successfully disconnected from db."));
