@@ -8,18 +8,21 @@ const User = require("../models/user");
 
 // Get Private Key:
 const privateKey = process.env.PRIVATE_KEY;
-const signOptions = { algorithm: "HS256" }
+const signOptions = { algorithm: "HS256" };
 
 // Controllers:
 exports.registerUser = async (req, res, next) => {
   // Create new user:
   try {
+    console.log(req.body);
     const user = new User({
       ...req.body
     });
 
     const result = await user.save();
     const token = await jwt.sign({ id: user._id }, privateKey, signOptions);
+    // Return user and JWT token:
+    res.set("Authorization", "Bearer " + token);
 
     return res.status(201).json({
       message: "Successfully registered new user.",
@@ -31,14 +34,14 @@ exports.registerUser = async (req, res, next) => {
       },
       token
     });
-
   } catch (e) {
+    console.log(e);
     return res.status(500).json({
       message: "Error(s) registering account.",
       errors: e
     });
   }
-}
+};
 
 exports.loginUser = async (req, res, next) => {
   // Verify user:
@@ -53,6 +56,9 @@ exports.loginUser = async (req, res, next) => {
 
     const token = jwt.sign({ id: user._id }, privateKey, signOptions);
 
+    // Return user and JWT:
+    res.set("Authorization", "Bearer " + token);
+
     res.status(200).json({
       message: "Successfully logged into account.",
       data: {
@@ -63,11 +69,10 @@ exports.loginUser = async (req, res, next) => {
       },
       token
     });
-
   } catch (e) {
     return res.status(500).json({
       message: "Error(s) logging into account.",
       errors: e
     });
   }
-}
+};
