@@ -8,12 +8,13 @@ const User = require("../models/user");
 
 // Get Private Key:
 const privateKey = process.env.PRIVATE_KEY;
-const signOptions = { algorithm: "HS256" }
+const signOptions = { algorithm: "HS256" };
 
 // Controllers:
 exports.registerUser = async (req, res, next) => {
   // Create new user:
   try {
+    console.log(req.body);
     const user = new User({
       ...req.body
     });
@@ -32,14 +33,14 @@ exports.registerUser = async (req, res, next) => {
         language: result.language
       }
     });
-
   } catch (e) {
+    console.log(e);
     return res.status(500).json({
       message: "Error(s) registering account.",
       errors: e
     });
   }
-}
+};
 
 exports.loginUser = async (req, res, next) => {
   // Verify user:
@@ -66,11 +67,10 @@ exports.loginUser = async (req, res, next) => {
         _id: user._id
       }
     });
-
   } catch (e) {
     return res.status(500).json({
       message: "Error(s) logging into account.",
       errors: e
     });
   }
-}
+};

@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -18,6 +19,9 @@ const useStyles = makeStyles(theme => ({
     justify: "space-around",
     alignItems: "center",
     float: "right"
+  },
+  link: {
+    textDecoration: "none"
   },
   createButton: {
     background: "white",
@@ -83,14 +87,16 @@ export default function Signup() {
           <div>
             <p>Don't have an account?</p>
           </div>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            className={classes.createButton}
-          >
-            Create
-          </Button>
+          <Link to="/register" className={classes.link}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.createButton}
+            >
+              Create
+            </Button>
+          </Link>
         </div>
         <Grid container>
           <form className={classes.form}>
