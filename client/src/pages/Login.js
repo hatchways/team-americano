@@ -73,7 +73,8 @@ export default function Login(props) {
     email: "",
     password: "",
     name: "",
-    language: "eng"
+    language: "eng",
+    errorMessage: ""
   });
 
   const handleChange = event => {
@@ -101,7 +102,13 @@ export default function Login(props) {
         console.log(response);
         if (response.status === 200) {
           props.history.push("/home");
+        } else {
+          setValues(state => ({
+            ...state,
+            errorMessage: "Error"
+          }));
         }
+        console.log(values.errorMessage);
         response.text();
       })
       .then(contents => {
@@ -111,6 +118,16 @@ export default function Login(props) {
         console.log("Can’t access " + url + " response. Blocked by browser?")
       );
   }
+
+  let errorStyle = {
+    position: "absolute",
+    backgroundColor: "black",
+    color: "white",
+    marginLeft: "60%",
+    width: "200px",
+    textAlign: "center",
+    bottom: "100px"
+  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -188,6 +205,11 @@ export default function Login(props) {
           </form>
         </Grid>
       </Grid>
+      {values.errorMessage.length > 0 && (
+        <div style={errorStyle}>
+          <p>Incorrect email or password</p>
+        </div>
+      )}
     </Grid>
   );
 }
