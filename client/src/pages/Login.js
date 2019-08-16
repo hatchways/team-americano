@@ -66,8 +66,51 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Signup() {
+export default function Login(props) {
   const classes = useStyles();
+
+  const [values, setValues] = React.useState({
+    email: "",
+    password: "",
+    name: "",
+    language: "eng"
+  });
+
+  const handleChange = event => {
+    event.persist();
+    setValues(state => ({
+      ...state,
+      [event.target.name]: event.target.value
+    }));
+  };
+
+  function onLogin(e) {
+    e.preventDefault();
+    console.log(values);
+    const url = "http://localhost:3001/api/auth/login";
+    fetch(url, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(values)
+    })
+      .then(response => {
+        console.log(response);
+        if (response.status === 200) {
+          props.history.push("/home");
+        }
+        response.text();
+      })
+      .then(contents => {
+        console.log(contents);
+      })
+      .catch(() =>
+        console.log("Can’t access " + url + " response. Blocked by browser?")
+      );
+  }
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -114,6 +157,8 @@ export default function Signup() {
               autoFocus
               InputLabelProps={{ style: { fontFamily: "Open Sans" } }}
               InputProps={{ style: { fontFamily: "Open Sans" } }}
+              values={values.email}
+              onChange={handleChange}
             />
             <TextField
               type="password"
@@ -128,12 +173,15 @@ export default function Signup() {
               FormHelperTextProps={{ style: { fontFamily: "Open Sans" } }}
               InputLabelProps={{ style: { fontFamily: "Open Sans" } }}
               inputProps={{ minLength: 6 }}
+              values={values.password}
+              onChange={handleChange}
             />
             <Button
               type="submit"
               variant="contained"
               color="primary"
               className={classes.loginButton}
+              onClick={onLogin}
             >
               Login
             </Button>

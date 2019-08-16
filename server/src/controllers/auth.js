@@ -53,7 +53,7 @@ exports.loginUser = async (req, res, next) => {
       }
     });
 
-    const token = jwt.sign(user, privateKey, signOptions);
+    const token = jwt.sign({ id: user._id }, privateKey, signOptions);
 
     // Return user and JWT:
     res.set("Authorization", "Bearer " + token);
