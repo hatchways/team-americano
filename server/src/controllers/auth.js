@@ -20,7 +20,7 @@ exports.registerUser = async (req, res, next) => {
     });
 
     const result = await user.save();
-    const token = await jwt.sign(user, privateKey, signOptions);
+    const token = await jwt.sign({ id: user._id }, privateKey, signOptions);
     // Return user and JWT token:
     res.set("Authorization", "Bearer " + token);
 

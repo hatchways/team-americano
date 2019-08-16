@@ -84,7 +84,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Register() {
+export default function Register(props) {
   const classes = useStyles();
 
   const [values, setValues] = React.useState({
@@ -93,8 +93,6 @@ export default function Register() {
     name: "",
     language: "eng"
   });
-
-  const [registerSuccess, setRegister] = React.useState("none");
 
   const handleChange = event => {
     event.persist();
@@ -116,8 +114,16 @@ export default function Register() {
       },
       body: JSON.stringify(values)
     })
-      .then(response => response.text())
-      .then(contents => console.log(contents))
+      .then(response => {
+        console.log(response);
+        if (response.status === 201) {
+          props.history.push("/home");
+        }
+        response.text();
+      })
+      .then(contents => {
+        console.log(contents);
+      })
       .catch(() =>
         console.log("Can’t access " + url + " response. Blocked by browser?")
       );
