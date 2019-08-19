@@ -4,7 +4,6 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Tooltip from "@material-ui/core/Tooltip";
 import { makeStyles } from "@material-ui/styles";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
@@ -19,7 +18,8 @@ export default function Referral() {
     setOpen(false);
   }
 
-  function copyToClipboard() {
+  function copyToClipboard(e) {
+    e.preventDefault();
     let text = document.getElementById("referralLink");
     text.select();
     document.execCommand("copy");
