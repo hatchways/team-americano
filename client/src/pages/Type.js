@@ -22,7 +22,11 @@ function Type(props) {
 
   function handleInput(e) {
     if (e.keyCode === 13) {
-      socket.emit("chat message", e.target.value);
+      socket.emit("chat message", {
+        timestamp: "",
+        sender: "",
+        content: e.target.value
+      });
       e.target.value = "";
       return false;
     }
