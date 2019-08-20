@@ -2,8 +2,11 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { makeStyles } from "@material-ui/styles";
+import * as io from "socket.io-client";
 
-function Type() {
+const socket = io();
+
+function Type(props) {
   const useStyles = makeStyles(theme => ({
     typeDiv: {
       padding: "40px"
@@ -17,6 +20,14 @@ function Type() {
     }
   }));
 
+  function handleInput(e) {
+    if (e.keyCode === 13) {
+      socket.emit("chat message", e.target.value);
+      e.target.value = "";
+      return false;
+    }
+  }
+
   const classes = useStyles();
   return (
     <div className={classes.typeDiv}>
@@ -26,6 +37,7 @@ function Type() {
         hiddenLabel
         variant="filled"
         placeholder="Type something..."
+        onKeyDown={handleInput}
         InputProps={{
           endAdornment: (
             <InputAdornment className={classes.typeIcon} position="start">
