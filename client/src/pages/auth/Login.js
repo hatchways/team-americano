@@ -20,18 +20,24 @@ import Image from '../../assets/bg-img.png';
 // Login Component
 export default class Login extends React.Component {
 
+  componentDidMount() {
+    // Set Document Title:
+    document.title = "Login - Start Conversing With Friends Today";
+  }
+
   constructor(props) {
     super(props);
 
     this.state = {
       password: "",
       email: "",
-      errorMessage: ""
+      errorMessage: false
     };
 
     this._handleChange = this._handleChange.bind(this);
   }
 
+  // Event Listener to change state on input:
   _handleChange = event => {
     const target = event.target;
     const { name, value } = target;
@@ -41,6 +47,7 @@ export default class Login extends React.Component {
     });
   }
 
+  // Event Listener to log in user:
   _onLogin = async e => {
     e.preventDefault();
     try {
@@ -50,13 +57,17 @@ export default class Login extends React.Component {
       });
 
       if (response.status === 200) {
+        // Set Token:
+        const { token } = response.data;
+        localStorage.setItem("token", token);
+
         this.props.history.push("/");
       } else {
         throw new Error();
       }
     } catch (e) {
       this.setState({
-        errorMessage: "Error"
+        errorMessage: true
       });
     }
   }
@@ -77,11 +88,11 @@ export default class Login extends React.Component {
         </Grid>
         <Grid item xs={12} elevation={6} sm={8} square>
           <div style={ styles.container }>
-            <div style={ styles.login }>
-              <div>
+            <div className="row text-center-sm" style={ styles.signup }>
+              <div style={ styles.signupText } className="col-sm-6 col-xs-12">
                 <p>Don't have an account?</p>
               </div>
-              <Link to="/register" style={ styles.link }>
+              <Link className="col-sm-6 col-xs-12" to="/register" style={ styles.link }>
                 <Button
                   type="submit"
                   variant="contained"
@@ -94,7 +105,7 @@ export default class Login extends React.Component {
             </div>
             <Grid container>
               <form style={ styles.form }>
-                <h1 style={{ textAlign: "left" }}>Welcome back!</h1>
+                <h1 className="text-center-sm" style={{ textAlign: "left" }}>Welcome back!</h1>
                 <TextField
                   type="email"
                   variant="standard"
@@ -140,7 +151,7 @@ export default class Login extends React.Component {
             </Grid>
           </div>
         </Grid>
-        {this.state.errorMessage.length > 0 && (
+        {this.state.errorMessage && (
         <div style={ styles.errorStyle }>
           <p>Incorrect email or password</p>
         </div>
@@ -170,7 +181,8 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     width: "95%",
-    margin: "0 auto"
+    margin: "0 auto",
+    paddingTop: "20px"
   },
 
   link: {
@@ -217,10 +229,10 @@ const styles = {
   },
 
   form: {
-    width: "50%",
+    width: "55%",
     margin: "0 auto",
     textAlign: "center",
-    padding: "45px 0"
+    padding: "50px 0"
   },
 
   errorStyle: {
@@ -231,5 +243,9 @@ const styles = {
     width: "200px",
     textAlign: "center",
     bottom: "100px"
+  },
+
+  signupText: {
+    marginTop: "24px"
   }
 }

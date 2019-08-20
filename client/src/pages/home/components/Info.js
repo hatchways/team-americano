@@ -86,12 +86,12 @@ export default function Info(props) {
       </div>
       <Router>
         <div className={classes.buttonSection}>
-          <Link to="/home/contacts" className={classes.link}>
+          <Link to="/" className={classes.link}>
             <Button className={classes.tabButton}>
               <h1>Contacts</h1>
             </Button>
           </Link>
-          <Link to="/home/invitations" className={classes.link}>
+          <Link to="/invitations" className={classes.link}>
             <Button className={classes.tabButton}>
               <h1>Invitations</h1>
             </Button>
@@ -99,8 +99,8 @@ export default function Info(props) {
         </div>
         <Search />
         <Referral />
-        <Route path="/home/contacts" component={Contacts} />
-        <Route path="/home/invitations" component={Invitations} />
+        <Route exact path="/" component={Contacts} />
+        <Route path="/invitations" component={Invitations} />
       </Router>
     </div>
   );

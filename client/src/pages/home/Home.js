@@ -2,7 +2,7 @@ import React from "react";
 import Info from "./components/Info";
 import Chat from "./components/Chat";
 
-class Home extends React.Component {
+export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -27,5 +27,3 @@ class Home extends React.Component {
     );
   }
 }
-
-export default Home;
