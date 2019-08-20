@@ -59,7 +59,7 @@ function ChatHeader() {
         <div className={classes.contactStatusDiv}>
           <img
             className={classes.statusIcon}
-            src={require("../assets/green_circle.png")}
+            src={require("../../../assets/green_circle.png")}
           />
           <p className={classes.contactStatus}>Online</p>
         </div>

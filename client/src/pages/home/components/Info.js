@@ -75,7 +75,7 @@ export default function Info(props) {
         <div className={classes.profileDiv}>
           <img
             className={classes.profilePic}
-            src={require("../assets/info_assets/thomas.png")}
+            src={require("../../../assets/info_assets/thomas.png")}
             alt="Profile"
           />
           <h1 className={classes.profileName}>Thomas</h1>

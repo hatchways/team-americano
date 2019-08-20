@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Image from "../assets/bg-img.png";
+import Image from "../../assets/bg-img.png";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -233,21 +233,24 @@ export default function Register(props) {
                 <MenuItem value={"eng"} className={classes.menuItem}>
                   <img
                     className={classes.flag}
-                    src={require("../assets/united-kingdom.svg")}
+                    src={require("../../assets/united-kingdom.svg")}
+                    alt="English"
                   />
                   English
                 </MenuItem>
                 <MenuItem value={"fr"} className={classes.menuItem}>
                   <img
                     className={classes.flag}
-                    src={require("../assets/france.svg")}
+                    src={require("../../assets/france.svg")}
+                    alt="French"
                   />
                   Francais
                 </MenuItem>
                 <MenuItem value={"spa"} className={classes.menuItem}>
                   <img
                     className={classes.flag}
-                    src={require("../assets/spain.svg")}
+                    src={require("../../assets/spain.svg")}
+                    alt="Spain"
                   />
                   Espagnol
                 </MenuItem>

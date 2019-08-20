@@ -1,6 +1,6 @@
 import React from "react";
-import Info from "./Info";
-import Chat from "./Chat";
+import Info from "./components/Info";
+import Chat from "./components/Chat";
 
 class Home extends React.Component {
   constructor(props) {
