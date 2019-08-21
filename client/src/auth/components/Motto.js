@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 
 // Assets:
-import Image from '../../../assets/bg-img.png';
+import Image from '../../assets/bg-img.png';
 
 // Motto Component:
 export default function Motto(props) {

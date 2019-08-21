@@ -4,7 +4,7 @@
 
 // Dependencies:
 import React from "react";
-import axios from 'axios';
+import api from '../api';
 
 // Material UI:
 import Grid from '@material-ui/core/Grid';
@@ -51,7 +51,7 @@ export default class Login extends React.Component {
   _onLogin = async e => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3001/api/auth/login", {
+      const response = await api.post("/api/auth/login", {
         email: this.state.email,
         password: this.state.password
       });

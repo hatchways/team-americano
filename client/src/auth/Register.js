@@ -4,7 +4,7 @@
 
 // Dependencies:
 import React from "react";
-import axios from "axios";
+import api from "../api";
 
 // Material UI:
 import Grid from "@material-ui/core/Grid";
@@ -44,6 +44,7 @@ export default class Register extends React.Component {
     this._onRegister = this._onRegister.bind(this);
   }
 
+  // Event Listener to Update State:
   _handleChange = event => {
     const target = event.target;
     const { name, value } = target;
@@ -53,11 +54,12 @@ export default class Register extends React.Component {
     });
   }
 
+  // Event Listener to Create User:
   _onRegister = async e => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3001/api/auth/register", {
+      const response = await api.post("/api/auth/register", {
         email: this.state.email,
         name: this.state.name,
         password: this.state.password,
@@ -162,7 +164,7 @@ export default class Register extends React.Component {
                   <MenuItem value={"eng"} style={ styles.menuItem }>
                     <img
                       style={ styles.flag }
-                      src={require("../../assets/united-kingdom.svg")}
+                      src={require("../assets/united-kingdom.svg")}
                       alt="english"
                     />
                     English
@@ -170,7 +172,7 @@ export default class Register extends React.Component {
                   <MenuItem value={"fr"} style={ styles.menuItem }>
                     <img
                       style={ styles.flag}
-                      src={require("../../assets/france.svg")}
+                      src={require("../assets/france.svg")}
                       alt="france"
                     />
                     Francais
@@ -178,7 +180,7 @@ export default class Register extends React.Component {
                   <MenuItem value={"spa"} className={ styles.menuItem }>
                     <img
                       style={ styles.flag }
-                      src={require("../../assets/spain.svg")}
+                      src={require("../assets/spain.svg")}
                       alt="spain"
                     />
                     Espagnol
