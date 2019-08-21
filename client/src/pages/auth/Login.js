@@ -22,7 +22,7 @@ export default class Login extends React.Component {
 
   componentDidMount() {
     // Set Document Title:
-    document.title = "Login - Start Conversing With Friends Today";
+    document.title = "Login - Start Conversing With Friends Today!";
   }
 
   constructor(props) {
@@ -35,6 +35,7 @@ export default class Login extends React.Component {
     };
 
     this._handleChange = this._handleChange.bind(this);
+    this._onLogin = this._onLogin.bind(this);
   }
 
   // Event Listener to change state on input:
@@ -88,7 +89,7 @@ export default class Login extends React.Component {
         </Grid>
         <Grid item xs={12} elevation={6} sm={8} square>
           <div style={ styles.container }>
-            <div className="row text-center-sm" style={ styles.signup }>
+            <div className="row text-center-sm">
               <div style={ styles.signupText } className="col-sm-6 col-xs-12">
                 <p>Don't have an account?</p>
               </div>
@@ -187,15 +188,6 @@ const styles = {
 
   link: {
     textDecoration: "none"
-  },
-
-  login: {
-    marginTop: "20px",
-    display: "flex",
-    direction: "row",
-    justify: "space-around",
-    alignItems: "center",
-    float: "right"
   },
 
   createButton: {
