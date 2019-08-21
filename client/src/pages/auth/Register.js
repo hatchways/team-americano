@@ -4,7 +4,6 @@
 
 // Dependencies:
 import React from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 
 // Material UI:
@@ -12,15 +11,15 @@ import Grid from "@material-ui/core/Grid";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Hidden from '@material-ui/core/Hidden';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 
-// Assets:
-import Image from '../../assets/bg-img.png';
+// Components:
+import Motto from './components/Motto';
+import AuthLink from './components/AuthLink';
 
 // Register Component:
 export default class Register extends React.Component {
@@ -85,34 +84,9 @@ export default class Register extends React.Component {
     return (
       <Grid container style={ styles.root }>
         <CssBaseline />
-        <Grid item xs={false} sm={4} style={ styles.image }>
-          <Hidden xsDown>
-            <div style={ styles.motto }>
-              <div style={ styles.speechIcon }>
-                <i class="far fa-comment-dots fa-5x" />
-              </div>
-              <p>Converse with anyone with any language.</p>
-            </div>
-          </Hidden>
-        </Grid>
+        <Motto />
         <Grid item xs={12} elevation={6} sm={8} square>
-          <div style={ styles.container }>
-            <div className="row text-center-sm">
-              <div style={ styles.loginText } className="col-sm-6 col-xs-12">
-                <p>Already have an account?</p>
-              </div>
-              <Link className="col-sm-6 col-xs-12" to="/login" style={ styles.link }>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  style={ styles.loginButton }
-                >
-                  Login
-                </Button>
-              </Link>
-            </div>
-          </div>
+          <AuthLink text="Already have an account?" button="Login" location="/login" />
           <Grid container>
             <form style={ styles.form } action="localhost:3001" method="post">
               <h1 style={{ textAlign: "left" }}>Create an account.</h1>
@@ -203,7 +177,7 @@ export default class Register extends React.Component {
                   </MenuItem>
                   <MenuItem value={"spa"} className={ styles.menuItem }>
                     <img
-                      className={ styles.flag }
+                      style={ styles.flag }
                       src={require("../../assets/spain.svg")}
                       alt="spain"
                     />
@@ -235,39 +209,6 @@ const styles = {
     fontFamily: "Open Sans"
   },
 
-  image: {
-    backgroundImage: `linear-gradient(to bottom, rgba(58, 141, 255, 0.85), rgba(134, 185, 255, 0)), url(${Image})`,
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
-    backgroundSize: "cover"
-  },
-
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    width: "95%",
-    margin: "0 auto",
-    paddingTop: "20px"
-  },
-
-  link: {
-    textDecoration: "none"
-  },
-
-  speechIcon: {
-    color: "white",
-    textAlign: "center"
-  },
-
-  motto: {
-    display: "inline-block",
-    color: "white",
-    textAlign: "center",
-    marginTop: "40%",
-    fontSize: "200%"
-  },
-
   form: {
     width: "55%",
     margin: "0 auto",
@@ -283,19 +224,6 @@ const styles = {
     width: "200px",
     textAlign: "center",
     bottom: "100px"
-  },
-
-  loginText: {
-    marginTop: "24px"
-  },
-
-  loginButton: {
-    background: "white",
-    fontFamily: "Open Sans",
-    fontWeight: "600",
-    color: "#3A8DFF",
-    padding: "20px 70px 20px 70px",
-    marginLeft: "20px"
   },
 
   createButton: {
