@@ -4,19 +4,32 @@
 
 // Dependencies:
 import React from "react";
+import Avatar from "react-avatar";
+import { Link } from "react-router-dom";
 
 // Material UI:
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Hidden from "@material-ui/core/Hidden";
 import Switch from "@material-ui/core/Switch";
-import Typography from "@material-ui/core/Typography";
 
 // Chat Header Component:
 export default function ChatHeader(props) {
   return (
     <div style={ styles.container }>
-      <div style={ styles.header } className="container">
-        Hello World
-      </div>
+      <nav className="navbar">
+        <div className="navbar-brand">
+          <Avatar name={ props.conversation.name } size="35" round />
+          <span style={ styles.name } className="font-weight-bold">{ props.conversation.name }</span>
+        </div>
+        <div className="navbar-text">
+          <Hidden xsDown>
+            <span>Original Language</span>
+            <Switch color="default" style={ styles.switch }/>
+          </Hidden>
+          <Link>
+            <i className="fas fa-ellipsis-h text-secondary"></i>
+          </Link>
+        </div>
+      </nav>
     </div>
   )
 }
@@ -25,12 +38,17 @@ export default function ChatHeader(props) {
 const styles = {
 
   container: {
-    padding: "24px 0",
+    padding: "16px 0",
     boxShadow: "0px 2px 5px -5px rgb(0, 0, 0)",
     width: "100%"
   },
 
-  header: {
-    margin: "0 0 0 20px"
+  name: {
+    paddingLeft: "12px",
+    fontSize: "20px"
+  },
+
+  switch: {
+    marginRight: "70px"
   }
 }

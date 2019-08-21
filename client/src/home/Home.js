@@ -41,7 +41,10 @@ export default class Home extends React.Component {
     super(props);
 
     this.state = {
-      user: ""
+      user: "",
+      conversation: {
+        name: "Ashanti"
+      }
     };
   }
 
@@ -49,7 +52,7 @@ export default class Home extends React.Component {
     return (
       <div style={{ padding: "0", margin: "0" }} className="row">
         <Info user={this.state.user} />
-        <Chat />
+        <Chat conversation={this.state.conversation} />
       </div>
     );
   }
