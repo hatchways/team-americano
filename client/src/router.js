@@ -23,7 +23,7 @@ export default class Router extends React.Component {
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
           <Route exact={true} path="/" render={props => {
-            return (this.state.auth ?
+            return (localStorage.getItem("token") !== null ?
               <Home /> : <Redirect to="/login" />
             )}}  />
       </BrowserRouter>
