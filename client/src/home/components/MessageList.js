@@ -46,8 +46,8 @@ export default function MessageList(props) {
             fontSize: 16
           },
           chatbubble: {
-            borderRadius: 30,
-            padding: 20
+            borderRadius: 20,
+            padding: 10
           }
         }
       }
