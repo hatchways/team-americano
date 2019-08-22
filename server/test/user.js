@@ -50,7 +50,7 @@ describe("User", () => {
 
       chai.request(app)
         .get("/api/user")
-        .set("Authenticate", "Bearer " + token)
+        .set("Authorization", "Bearer " + token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a("object");

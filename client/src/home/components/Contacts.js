@@ -49,7 +49,7 @@ function Contacts() {
           <ListItem className={classes.listItem}>
             <ListItemAvatar>
               <Avatar>
-                <img src={require("../assets/info_assets/Ashanti.png")} />
+                <img src={require("../../assets/info_assets/Ashanti.png")} />
               </Avatar>
             </ListItemAvatar>
             <ListItemText disableTypography primary="Ashanti" />
@@ -59,7 +59,7 @@ function Contacts() {
           <ListItem className={classes.listItem}>
             <ListItemAvatar>
               <Avatar>
-                <img src={require("../assets/info_assets/Cheng.png")} />
+                <img src={require("../../assets/info_assets/Cheng.png")} />
               </Avatar>
             </ListItemAvatar>
             <ListItemText disableTypography primary="Cheng" />
@@ -69,7 +69,7 @@ function Contacts() {
           <ListItem className={classes.listItem}>
             <ListItemAvatar>
               <Avatar>
-                <img src={require("../assets/info_assets/Chiumbo.png")} />
+                <img src={require("../../assets/info_assets/Chiumbo.png")} />
               </Avatar>
             </ListItemAvatar>
             <ListItemText disableTypography primary="Chiumbo" />
@@ -79,7 +79,7 @@ function Contacts() {
           <ListItem className={classes.listItem}>
             <ListItemAvatar>
               <Avatar>
-                <img src={require("../assets/info_assets/Jeffrey.png")} />
+                <img src={require("../../assets/info_assets/Jeffrey.png")} />
               </Avatar>
             </ListItemAvatar>
             <ListItemText disableTypography primary="Jeffrey" />
@@ -89,7 +89,7 @@ function Contacts() {
           <ListItem className={classes.listItem}>
             <ListItemAvatar>
               <Avatar>
-                <img src={require("../assets/info_assets/Julia.png")} />
+                <img src={require("../../assets/info_assets/Julia.png")} />
               </Avatar>
             </ListItemAvatar>
             <ListItemText disableTypography primary="Julia" />
@@ -99,7 +99,7 @@ function Contacts() {
           <ListItem className={classes.listItem}>
             <ListItemAvatar>
               <Avatar>
-                <img src={require("../assets/info_assets/Stephen.png")} />
+                <img src={require("../../assets/info_assets/Stephen.png")} />
               </Avatar>
             </ListItemAvatar>
             <ListItemText disableTypography primary="Stephen" />
@@ -109,7 +109,7 @@ function Contacts() {
           <ListItem className={classes.listItem}>
             <ListItemAvatar>
               <Avatar>
-                <img src={require("../assets/info_assets/Tony.png")} />
+                <img src={require("../../assets/info_assets/Tony.png")} />
               </Avatar>
             </ListItemAvatar>
             <ListItemText disableTypography primary="Tony" />
@@ -119,7 +119,7 @@ function Contacts() {
           <ListItem className={classes.listItem}>
             <ListItemAvatar>
               <Avatar>
-                <img src={require("../assets/info_assets/Wendy.png")} />
+                <img src={require("../../assets/info_assets/Wendy.png")} />
               </Avatar>
             </ListItemAvatar>
             <ListItemText disableTypography primary="Wendy" />
