@@ -1,26 +1,23 @@
+// ==============================================
+// Search Component:
+// ==============================================
+
+// Dependencies:
 import React from "react";
+
+// Material UI:
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import { makeStyles } from "@material-ui/styles";
 
-function Search() {
-  const useStyles = makeStyles(theme => ({
-    searchDiv: {
-      textAlign: "center"
-    },
-    textField: {
-      width: "95%",
-      backgroundColor: "rgb(233,238,250)"
-    }
-  }));
-
-  const classes = useStyles();
+// Search Component:
+export default function Search(props) {
 
   return (
-    <div className={classes.searchDiv}>
+    <div style={ styles.container }>
       <TextField
+        style={ styles.search }
+        className="bg-muted"
         id="searchBar"
-        className={classes.textField}
         hiddenLabel
         variant="filled"
         placeholder="Search"
@@ -38,4 +35,14 @@ function Search() {
   );
 }
 
-export default Search;
+// Component Styles:
+const styles = {
+
+  container: {
+    padding: "0 10px"
+  },
+
+  search: {
+    width: "100%"
+  }
+}

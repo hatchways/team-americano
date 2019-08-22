@@ -1,4 +1,11 @@
+// ==============================================
+// Chat Component:
+// ==============================================
+
+// Dependencies:
 import React from "react";
+
+// Components:
 import ChatHeader from "./ChatHeader";
 import MessageList from "./MessageList";
 import Type from "./Type";
@@ -20,7 +27,8 @@ const DUMMY_MESSAGES = [
   }
 ];
 
-class Chat extends React.Component {
+// Chat Component:
+export default class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,20 +37,13 @@ class Chat extends React.Component {
   }
   render() {
     return (
-      <div
-        id="chat"
-        style={{
-          width: "67vw",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between"
-        }}
-      >
-        <ChatHeader />
-        <Type />
+      <div style={{ padding: "0" }} className="col-sm-8 col-xs-12">
+        <ChatHeader conversation={ this.props.conversation } />
+        <div className="container">
+          <MessageList />
+          <Type />
+        </div>
       </div>
     );
   }
 }
-
-export default Chat;

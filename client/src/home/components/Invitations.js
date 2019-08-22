@@ -56,7 +56,7 @@ function Invitations() {
           <ListItem className={classes.listItem}>
             <ListItemAvatar>
               <Avatar>
-                <img src={require("../assets/info_assets/Ashanti.png")} />
+                <img src={require("../../assets/info_assets/Ashanti.png")} />
               </Avatar>
             </ListItemAvatar>
             <ListItemText disableTypography primary="Ashanti" />
@@ -70,7 +70,7 @@ function Invitations() {
           <ListItem className={classes.listItem}>
             <ListItemAvatar>
               <Avatar>
-                <img src={require("../assets/info_assets/Cheng.png")} />
+                <img src={require("../../assets/info_assets/Cheng.png")} />
               </Avatar>
             </ListItemAvatar>
             <ListItemText disableTypography primary="Cheng" />
