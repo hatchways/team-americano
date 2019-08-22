@@ -16,6 +16,7 @@ import Invitations from "./Invitations";
 
 // Info Component:
 export default function Info(props) {
+
   return (
     <div style={ styles.infoBar } className="col-sm-4 col-xs-12 bg-light">
       <div style={ styles.container } className="container">
@@ -24,7 +25,7 @@ export default function Info(props) {
             <Avatar name={ props.user.name } size="45" round />
             <span className="font-weight-bold text-dark" style={ styles.username }>{ props.user.name }</span>
           </div>
-          <NavLink className="navbar-text">
+          <NavLink to="/" className="navbar-text">
             <i style={ styles.settings } className="fas fa-ellipsis-h text-secondary"></i>
           </NavLink>
         </nav>
@@ -35,8 +36,12 @@ export default function Info(props) {
           </div>
           <Search />
           <Referral />
-          <Route exact path="/" component={Contacts} />
-          <Route exact path="/contact" component={Invitations} />
+          <Route exact path="/" render={() => (
+            <Contacts contacts={ props.contacts } />
+          )} />
+          <Route exact path="/contact" render={() => (
+            <Invitations invitations={ props.invitations } />
+          )} />
         </Router>
       </div>
     </div>

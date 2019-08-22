@@ -18,14 +18,13 @@ export default function Type() {
         className="bg-muted"
         style={ styles.type }
         id="searchBar"
-        hiddenLabel
         variant="filled"
         placeholder="Type something..."
         InputProps={{
           endAdornment: (
             <InputAdornment position="start">
-              <i class="far fa-smile" />
-              <i class="far fa-clone" />
+              <i className="far fa-smile" />
+              <i className="far fa-clone" />
             </InputAdornment>
           ),
           disableUnderline: true,

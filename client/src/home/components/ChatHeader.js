@@ -25,7 +25,7 @@ export default function ChatHeader(props) {
             <span>Original Language</span>
             <Switch color="default" style={ styles.switch }/>
           </Hidden>
-          <Link>
+          <Link to="/">
             <i className="fas fa-ellipsis-h text-secondary"></i>
           </Link>
         </div>
