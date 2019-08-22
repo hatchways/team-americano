@@ -20,30 +20,37 @@ export default class Home extends React.Component {
     // API Call:
     const token = localStorage.getItem("token");
 
-    const user = await api.get("/api/user", {
-      headers: {
-        Authorization: "Bearer " + token
-      }
-    });
+    try {
+      const user = await api.get("/api/user", {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      });
 
-    const { data } = user.data;
+      const { data } = user.data;
 
-    const invitations = await api.get("/api/invitation", {
-      headers: {
-        Authorization: "Bearer " + token
-      }
-    });
+      const invitations = await api.get("/api/invitation", {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      });
 
-    this.setState({
-      user: {
-        name: data.name,
-        email: data.email,
-        _id: data._id,
-        language: data.language
-      },
-      invitations: invitations.data.data,
-      contacts: data.contacts
-    });
+      console.log(invitations.data.data);
+
+      this.setState({
+        user: {
+          name: data.name,
+          email: data.email,
+          _id: data._id,
+          language: data.language
+        },
+        invitations: invitations.data.data,
+        contacts: data.contacts,
+      });
+
+    } catch(e) {
+      console.log(e);
+    }
 
   }
 
@@ -63,7 +70,7 @@ export default class Home extends React.Component {
   render() {
     return (
       <div style={{ padding: "0", margin: "0" }} className="row">
-        <Info invitations={this.state.invitations} user={this.state.user} />
+        <Info invitations={this.state.invitations} user={this.state.user} contacts={this.state.contacts} />
         <Chat conversation={this.state.conversation} />
       </div>
     );
