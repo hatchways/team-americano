@@ -1,50 +1,46 @@
+// ==============================================
+// Type Component:
+// ==============================================
+
+// Dependencies:
 import React from "react";
+
+// Material UI:
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import { makeStyles } from "@material-ui/styles";
+
+//Socket IO:
 import * as io from "socket.io-client";
 
-const socket = io();
+// Type Component:
+export default function Type() {
+  const socket = io();
 
-function Type(props) {
-  const useStyles = makeStyles(theme => ({
-    typeDiv: {
-      padding: "40px"
-    },
-    typeField: {
-      width: "100%",
-      backgroundColor: "rgb(233,238,250)",
-      "& i": {
-        marginRight: "10px"
-      }
-    }
-  }));
-
+  // Emit "chat message" event to server when user hits enter
   function handleInput(e) {
     if (e.keyCode === 13) {
       socket.emit("chat message", {
-        timestamp: "",
+        timestamp: Date(Date.now()).toString(),
         sender: "",
         content: e.target.value
       });
+      e.preventDefault();
       e.target.value = "";
-      return false;
     }
   }
 
-  const classes = useStyles();
   return (
-    <div className={classes.typeDiv}>
+    <div style={styles.container}>
       <TextField
+        className="bg-muted"
+        style={styles.type}
         id="searchBar"
-        className={classes.typeField}
         hiddenLabel
         variant="filled"
         placeholder="Type something..."
-        onKeyDown={handleInput}
         InputProps={{
           endAdornment: (
-            <InputAdornment className={classes.typeIcon} position="start">
+            <InputAdornment position="start">
               <i class="far fa-smile" />
               <i class="far fa-clone" />
             </InputAdornment>
@@ -52,9 +48,19 @@ function Type(props) {
           disableUnderline: true,
           style: { fontFamily: "Open Sans", paddingBottom: "1em" }
         }}
+        onKeyDown={handleInput}
       />
     </div>
   );
 }
 
-export default Type;
+// Component Styles:
+const styles = {
+  container: {
+    paddingTop: "5px"
+  },
+
+  type: {
+    width: "100%"
+  }
+};
