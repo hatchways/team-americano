@@ -35,6 +35,8 @@ export default class Home extends React.Component {
         }
       });
 
+      console.log(invitations.data.data);
+
       this.setState({
         user: {
           name: data.name,
@@ -43,7 +45,7 @@ export default class Home extends React.Component {
           language: data.language
         },
         invitations: invitations.data.data,
-        contacts: data.contacts
+        contacts: data.contacts,
       });
 
     } catch(e) {

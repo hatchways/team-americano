@@ -72,11 +72,13 @@ exports.acceptInvitation = async (req, res, next) => {
   try {
     const invitation = await Invitation.findById(req.params.invitationId);
 
+    console.log(invitation);
     if (invitation.status === "Accepted") {
       throw new Error("User can't change status of accepted invitation.");
     }
 
-    if (invitation.requestee !== req.user._id) {
+    if (!req.user._id.equals(invitation.requestee)) {
+      console.log("No reason I go off...");
       throw new Error("Unauthorized user.");
     }
 
@@ -110,7 +112,7 @@ exports.ignoreInvitation = async (req, res, next) => {
       throw new Error("User can't change status of accepted invitation.");
     }
 
-    if (invitation.requestee !== req.user._id) {
+    if (!req.user._id.equals(invitation.requestee)) {
       throw new Error("Unauthorized user.");
     }
 
