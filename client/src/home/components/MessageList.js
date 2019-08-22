@@ -5,11 +5,18 @@
 // Dependencies:
 import React from "react";
 
+// Socket IO:
+import * as io from "socket.io-client";
+
 // Message List Component:
 export default function MessageList(props) {
-  return (
-    <div style={ styles.messageList }></div>
-  );
+  // Listening to "new message" event emitted from the server
+  const socket = io();
+  socket.on("new message", function(msg) {
+    console.log(msg);
+  });
+
+  return <div style={styles.messageList} />;
 }
 
 // Component Styles:
@@ -18,4 +25,4 @@ const styles = {
     height: "68vh",
     overflowY: "scroll"
   }
-}
+};

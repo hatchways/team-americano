@@ -16,14 +16,14 @@ import * as io from "socket.io-client";
 export default function Type() {
   const socket = io();
 
+  // Emit "chat message" event to server when user hits enter
   function handleInput(e) {
     if (e.keyCode === 13) {
       socket.emit("chat message", {
-        timestamp: Date.now(),
+        timestamp: Date(Date.now()).toString(),
         sender: "",
         content: e.target.value
       });
-      console.log(e.target.value);
       e.preventDefault();
       e.target.value = "";
     }

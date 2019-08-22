@@ -20,10 +20,4 @@ router.get(
   userController.getAuthenticatedUser
 );
 
-router.get(
-  "/:id/contacts",
-  passport.authenticate("jwt", { session: false }),
-  userController.getUserContacts
-);
-
 module.exports = router;
