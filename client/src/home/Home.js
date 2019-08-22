@@ -18,13 +18,21 @@ export default class Home extends React.Component {
     document.title = "Start conversing with friends today!";
 
     // API Call:
-    const response = await api.get("/api/user", {
+    const token = localStorage.getItem("token");
+
+    const user = await api.get("/api/user", {
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
+        Authorization: "Bearer " + token
       }
     });
 
-    const { data } = response.data;
+    const { data } = user.data;
+
+    const invitations = await api.get("/api/invitation", {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
 
     this.setState({
       user: {
@@ -32,7 +40,9 @@ export default class Home extends React.Component {
         email: data.email,
         _id: data._id,
         language: data.language
-      }
+      },
+      invitations: invitations.data.data,
+      contacts: data.contacts
     });
 
   }
@@ -44,14 +54,16 @@ export default class Home extends React.Component {
       user: "",
       conversation: {
         name: "Ashanti"
-      }
+      },
+      invitations: [],
+      contacts: []
     };
   }
 
   render() {
     return (
       <div style={{ padding: "0", margin: "0" }} className="row">
-        <Info user={this.state.user} />
+        <Info invitations={this.state.invitations} user={this.state.user} />
         <Chat conversation={this.state.conversation} />
       </div>
     );
