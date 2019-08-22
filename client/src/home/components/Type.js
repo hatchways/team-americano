@@ -9,14 +9,31 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
+//Socket IO:
+import * as io from "socket.io-client";
+
 // Type Component:
 export default function Type() {
+  const socket = io();
+
+  function handleInput(e) {
+    if (e.keyCode === 13) {
+      socket.emit("chat message", {
+        timestamp: Date.now(),
+        sender: "",
+        content: e.target.value
+      });
+      console.log(e.target.value);
+      e.preventDefault();
+      e.target.value = "";
+    }
+  }
 
   return (
-    <div style={ styles.container }>
+    <div style={styles.container}>
       <TextField
         className="bg-muted"
-        style={ styles.type }
+        style={styles.type}
         id="searchBar"
         hiddenLabel
         variant="filled"
@@ -31,6 +48,7 @@ export default function Type() {
           disableUnderline: true,
           style: { fontFamily: "Open Sans", paddingBottom: "1em" }
         }}
+        onKeyDown={handleInput}
       />
     </div>
   );
@@ -38,7 +56,6 @@ export default function Type() {
 
 // Component Styles:
 const styles = {
-
   container: {
     paddingTop: "5px"
   },
@@ -46,4 +63,4 @@ const styles = {
   type: {
     width: "100%"
   }
-}
+};
