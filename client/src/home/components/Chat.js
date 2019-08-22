@@ -41,7 +41,7 @@ export default class Chat extends React.Component {
         <ChatHeader conversation={ this.props.conversation } />
         <div className="container">
           <MessageList />
-          <Type />
+          <Type id={ this.props.id } />
         </div>
       </div>
     );

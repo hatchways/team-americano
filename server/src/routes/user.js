@@ -14,6 +14,10 @@ require("../middleware/passport");
 const router = express.Router();
 
 // Create Route Handlers:
-router.get("/", passport.authenticate('jwt', { session: false }), userController.getAuthenticatedUser);
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  userController.getAuthenticatedUser
+);
 
 module.exports = router;
