@@ -49,7 +49,6 @@ describe("Authenticate", () => {
         .end((err, res) => {
           res.should.have.status(201);
           res.body.should.be.a("object");
-          res.header.should.have.property("Authorization");
         });
         done();
     });
@@ -83,9 +82,8 @@ describe("Authenticate", () => {
         .post("/api/auth/login")
         .send(user)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(500);
           res.body.should.be.a("object");
-          res.header.should.have.property("Authorization");
         });
         done();
     })
