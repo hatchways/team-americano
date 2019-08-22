@@ -17,7 +17,7 @@ const connect = mongoose
   .catch(e => console.log(e));
 
 // Clear Database:
-mongoose.connection.dropDatabase();
+// mongoose.connection.dropDatabase();
 
 // Require Models:
 require("../src/models/user");
