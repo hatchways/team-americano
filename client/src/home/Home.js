@@ -18,22 +18,39 @@ export default class Home extends React.Component {
     document.title = "Start conversing with friends today!";
 
     // API Call:
-    const response = await api.get("/api/user", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    });
+    const token = localStorage.getItem("token");
 
-    const { data } = response.data;
+    try {
+      const user = await api.get("/api/user", {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      });
 
-    this.setState({
-      user: {
-        name: data.name,
-        email: data.email,
-        _id: data._id,
-        language: data.language
-      }
-    });
+      const { data } = user.data;
+
+      const invitations = await api.get("/api/invitation", {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      });
+
+      console.log(invitations.data.data);
+
+      this.setState({
+        user: {
+          name: data.name,
+          email: data.email,
+          _id: data._id,
+          language: data.language
+        },
+        invitations: invitations.data.data,
+        contacts: data.contacts,
+      });
+
+    } catch(e) {
+      console.log(e);
+    }
 
   }
 
@@ -44,14 +61,16 @@ export default class Home extends React.Component {
       user: "",
       conversation: {
         name: "Ashanti"
-      }
+      },
+      invitations: [],
+      contacts: []
     };
   }
 
   render() {
     return (
       <div style={{ padding: "0", margin: "0" }} className="row">
-        <Info user={this.state.user} />
+        <Info invitations={this.state.invitations} user={this.state.user} contacts={this.state.contacts} />
         <Chat id={this.state.user._id} conversation={this.state.conversation} />
       </div>
     );

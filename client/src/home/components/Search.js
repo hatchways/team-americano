@@ -18,13 +18,12 @@ export default function Search(props) {
         style={ styles.search }
         className="bg-muted"
         id="searchBar"
-        hiddenLabel
         variant="filled"
         placeholder="Search"
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <i class="fas fa-search" />
+              <i className="fas fa-search" />
             </InputAdornment>
           ),
           disableUnderline: true,
