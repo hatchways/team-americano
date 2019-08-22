@@ -52,7 +52,7 @@ export default class Home extends React.Component {
     return (
       <div style={{ padding: "0", margin: "0" }} className="row">
         <Info user={this.state.user} />
-        <Chat conversation={this.state.conversation} />
+        <Chat id={this.state.user._id} conversation={this.state.conversation} />
       </div>
     );
   }

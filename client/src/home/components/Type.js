@@ -13,7 +13,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import * as io from "socket.io-client";
 
 // Type Component:
-export default function Type() {
+export default function Type(props) {
   const socket = io();
 
   // Emit "chat message" event to server when user hits enter
@@ -21,7 +21,7 @@ export default function Type() {
     if (e.keyCode === 13) {
       socket.emit("chat message", {
         timestamp: Date(Date.now()).toString(),
-        sender: "",
+        sender: props.id,
         content: e.target.value
       });
       e.preventDefault();
