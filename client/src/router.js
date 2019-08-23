@@ -19,10 +19,6 @@ const checkAuth = () => {
 // Router Component:
 export default class Router extends React.Component {
 
-  componentDidMount() {
-    console.log("Router");
-  }
-
   render() {
     return (
       <BrowserRouter>

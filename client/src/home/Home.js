@@ -56,7 +56,6 @@ export default class Home extends React.Component {
         invitations: invitations.data.data,
         contacts: data.contacts
       });
-
       return true;
     } catch(e) {
       console.log(e);
@@ -82,8 +81,8 @@ export default class Home extends React.Component {
     if (this.state.redirect) return <Redirect to="/login" />;
     return (
       <div style={{ padding: "0", margin: "0" }} className="row">
-        <Info contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
-        <Chat conversation={this.state.conversation} />
+        <Info invitations={this.state.invitations} user={this.state.user} contacts={this.state.contacts} />
+        <Chat id={this.state.user._id} conversation={this.state.conversation} />
       </div>
     );
   }

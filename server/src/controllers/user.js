@@ -12,8 +12,8 @@ exports.getAuthenticatedUser = async (req, res, next) => {
   try {
     const data = await User.findById(req.user._id)
       .select("-password")
-      .populate('conversations')
-      .populate('contacts', 'name email');
+      .populate("conversations")
+      .populate("contacts", "name email");
 
     return res.status(200).json({
       message: "Successfully fetched user information.",
@@ -25,4 +25,4 @@ exports.getAuthenticatedUser = async (req, res, next) => {
       errors: e
     });
   }
-}
+};
