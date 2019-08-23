@@ -2,10 +2,13 @@
 // Passport setup file
 // ==============================================
 
+require('dotenv').config();
+
 // Dependencies:
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
 const User = require("../models/user");
+const regeneratorRuntime = require("regenerator-runtime");
 
 // Get Extract and Strategy:
 const JWTStrategy = passportJWT.Strategy;
