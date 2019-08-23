@@ -11,10 +11,16 @@ import Register from './auth/Register';
 import Login from './auth/Login';
 import Home from './home/Home';
 
+// Function to check user authentication:
+const checkAuth = () => {
+  return localStorage.getItem("token") !== "null";
+}
+
+// Router Component:
 export default class Router extends React.Component {
 
-  state = {
-    auth: true
+  componentDidMount() {
+    console.log("Router");
   }
 
   render() {
@@ -23,7 +29,7 @@ export default class Router extends React.Component {
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
           <Route exact={true} path="/" render={props => {
-            return (this.state.auth ?
+            return (checkAuth() ?
               <Home /> : <Redirect to="/login" />
             )}}  />
       </BrowserRouter>

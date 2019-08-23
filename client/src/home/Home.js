@@ -4,6 +4,7 @@
 
 // Dependencies:
 import React from "react";
+import { Redirect } from "react-router-dom";
 import api from "../api";
 
 // Components:
@@ -18,33 +19,49 @@ export default class Home extends React.Component {
     document.title = "Start conversing with friends today!";
 
     // API Call:
+    const status = await this.callApi();
+
+    if (!status) {
+      localStorage.setItem("token", null);
+      this.setState({
+        redirect: true
+      });
+    }
+
+  }
+
+  callApi = async () => {
     const token = localStorage.getItem("token");
 
-    const user = await api.get("/api/user", {
-      headers: {
-        Authorization: "Bearer " + token
-      }
-    });
+    try {
+      const user = await api.get("/api/user", {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      });
+      const { data } = user.data;
+      const invitations = await api.get("/api/invitation", {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      });
 
-    const { data } = user.data;
+      this.setState({
+        user: {
+          name: data.name,
+          email: data.email,
+          _id: data._id,
+          language: data.language
+        },
+        invitations: invitations.data.data,
+        contacts: data.contacts
+      });
 
-    const invitations = await api.get("/api/invitation", {
-      headers: {
-        Authorization: "Bearer " + token
-      }
-    });
-
-    this.setState({
-      user: {
-        name: data.name,
-        email: data.email,
-        _id: data._id,
-        language: data.language
-      },
-      invitations: invitations.data.data,
-      contacts: data.contacts
-    });
-
+      return true;
+    } catch(e) {
+      console.log(e);
+      return false;
+    }
   }
 
   constructor(props) {
@@ -56,14 +73,16 @@ export default class Home extends React.Component {
         name: "Ashanti"
       },
       invitations: [],
-      contacts: []
+      contacts: [],
+      redirect: false
     };
   }
 
   render() {
+    if (this.state.redirect) return <Redirect to="/login" />;
     return (
       <div style={{ padding: "0", margin: "0" }} className="row">
-        <Info invitations={this.state.invitations} user={this.state.user} />
+        <Info contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
         <Chat conversation={this.state.conversation} />
       </div>
     );
