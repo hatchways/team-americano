@@ -21,6 +21,9 @@ export default function Search(props) {
         placeholder="Search"
         style={ styles.search }
         minLength={2}
+        inputProps={{
+          style: { fontFamily: "Open Sans" },
+        }}
       />
       <p style={ styles.result }>Results for: <span className="font-italic">{props.search}</span></p>
     </div>
