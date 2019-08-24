@@ -53,6 +53,7 @@ export default function Invitation(props) {
   const token = localStorage.getItem("token");
 
   const acceptInvitation = async () => {
+
     try {
       await api.put("/api/invitation/" + props.invitation._id + "/accept", {}, {
         headers: {
@@ -82,9 +83,9 @@ export default function Invitation(props) {
     <Paper className={classes.paper}>
       <ListItem className={classes.listItem}>
         <ListItemAvatar>
-          <Avatar name={ props.invitation.name } round size="40" />
+          <Avatar name={ props.invitation.requester.name } round size="40" />
         </ListItemAvatar>
-        <ListItemText disableTypography primary={ props.invitation.name } />
+        <ListItemText disableTypography primary={ props.invitation.requester.name } />
         <div className={classes.userActionsDiv}>
           <Button onClick={ ignoreInvitation } className={classes.userActionButton}>Ignore</Button>
           <Button onClick={ acceptInvitation } className={classes.userActionButton}>Accept</Button>

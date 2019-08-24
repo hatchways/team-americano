@@ -56,7 +56,6 @@ export default class Home extends React.Component {
         invitations: invitations.data.data,
         contacts: data.contacts
       });
-
       return true;
     } catch(e) {
       console.log(e);
@@ -97,7 +96,7 @@ export default class Home extends React.Component {
     return (
       <div style={{ padding: "0", margin: "0" }} className="row">
         <Info reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
-        <Chat conversation={this.state.conversation} />
+        <Chat id={this.state.user._id} conversation={this.state.conversation} />
       </div>
     );
   }

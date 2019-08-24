@@ -43,7 +43,6 @@ const styles = {
   },
 
   motto: {
-    display: "inline-block",
     color: "white",
     textAlign: "center",
     marginTop: "40%",
