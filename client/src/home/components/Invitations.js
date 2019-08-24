@@ -32,7 +32,7 @@ export default function Invitations(props) {
 
   // Invitation Components:
   const InvitationList = props.invitations.map( (invitation, index) => (
-    <Invitation key={ index } invitation={ invitation } />
+    <Invitation reload={ props.reload } key={ index } invitation={ invitation } />
   ));
 
   return (

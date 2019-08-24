@@ -59,6 +59,7 @@ export default function Invitation(props) {
           Authorization: "Bearer " + token
         }
       });
+      props.reload();
     } catch(e) {
       console.log(e);
     }
@@ -71,6 +72,7 @@ export default function Invitation(props) {
           Authorization: "Bearer " + token
         }
       });
+      props.reload();
     } catch (e) {
       console.log(e);
     }

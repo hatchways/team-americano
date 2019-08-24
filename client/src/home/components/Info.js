@@ -34,13 +34,13 @@ export default function Info(props) {
             <NavLink exact to="/" activeClassName="text-dark" className="text-muted" activeStyle={ styles.active } style={{ ...styles.link, paddingRight: "16px" }}>Chats</NavLink>
             <NavLink exact to="/contact" activeClassName="text-dark" className="text-muted" activeStyle={ styles.active } style={ styles.link }>Contacts</NavLink>
           </div>
-          <Search />
+          <Search search={props.search} updateSearch={props.updateSearch} />
           <Referral />
           <Route exact path="/" render={() => (
-            <Contacts contacts={ props.contacts } />
+            <Contacts search={ props.search } contacts={ props.contacts } />
           )} />
           <Route exact path="/contact" render={() => (
-            <Invitations invitations={ props.invitations } />
+            <Invitations reload={ props.reload } search={ props.search } invitations={ props.invitations } />
           )} />
         </Router>
       </div>
@@ -65,7 +65,7 @@ const styles = {
   },
 
   linkContainer: {
-    padding: "6px 18px"
+    padding: "6px 8px"
   },
 
   link: {
