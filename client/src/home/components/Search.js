@@ -22,17 +22,13 @@ export default function Search(props) {
         style={ styles.search }
         minLength={2}
       />
-      <p style={ styles.result }>Results for: {props.search}</p>
+      <p style={ styles.result }>Results for: <span className="font-italic">{props.search}</span></p>
     </div>
   );
 }
 
 // Component Styles:
 const styles = {
-
-  container: {
-    padding: "0 10px"
-  },
 
   search: {
     width: "100%"

@@ -38,7 +38,8 @@ export default function Invitations(props) {
   return (
     <div className={classes.contactsDiv}>
       <List className={classes.list}>
-        { InvitationList }
+        <p className="font-weight-bold">Invitations:</p>
+        { InvitationList.length ? InvitationList : <p>No new invitations to show.</p> }
       </List>
     </div>
   );

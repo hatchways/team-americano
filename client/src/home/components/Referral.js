@@ -63,8 +63,6 @@ export default function Referral() {
       textTransform: "none",
       border: "none",
       padding: "0",
-      marginLeft: "15px",
-      marginTop: "15px",
       color: "#3A8DFF",
       "&:hover": {
         border: "none"

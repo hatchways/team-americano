@@ -22,7 +22,7 @@ export default function Info(props) {
       <div style={ styles.container } className="container">
         <nav className="navbar">
           <div className="navbar-brand">
-            <Avatar name={ props.user.name } size="45" round />
+            <Avatar style={styles.avatar} name={ props.user.name } size="45" round />
             <span className="font-weight-bold text-dark" style={ styles.username }>{ props.user.name }</span>
           </div>
           <NavLink to="/" className="navbar-text">
@@ -60,12 +60,16 @@ const styles = {
     paddingTop: "10px"
   },
 
+  avatar: {
+    marginLeft: "-18px"
+  },
+
   username: {
     paddingLeft: "12px"
   },
 
   linkContainer: {
-    padding: "6px 8px"
+    padding: "6px 0"
   },
 
   link: {
