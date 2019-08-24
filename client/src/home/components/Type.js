@@ -60,6 +60,7 @@ const styles = {
   },
 
   type: {
-    width: "100%"
+    width: "98%",
+    margin: "0 auto 6px"
   }
 };
