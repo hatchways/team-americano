@@ -33,7 +33,7 @@ export default function MessageList(props) {
   });
 
   return (
-    <div style={styles.messageList} >
+    <div className="container" style={styles.messageList} >
       <ChatFeed
         messages={messages}
         isTyping={false}
@@ -60,7 +60,6 @@ export default function MessageList(props) {
 const styles = {
   messageList: {
     height: "68vh",
-    overflowY: "scroll",
-    paddingRight: "15px"
+    overflowY: "scroll"
   }
 };

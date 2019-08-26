@@ -37,9 +37,9 @@ export default class Chat extends React.Component {
   }
   render() {
     return (
-      <div style={{ padding: "0" }} className="col-sm-8 col-xs-12">
+      <div style={{ padding: "0", height: "100vh" }} className="col-xs-12 col-sm-8">
         <ChatHeader conversation={ this.props.conversation } />
-        <div className="container">
+        <div>
           <MessageList />
           <Type id={ this.props.id } />
         </div>

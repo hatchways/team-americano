@@ -73,7 +73,7 @@ export default function Info(props) {
           <div style={styles.linkContainer}>
             <NavLink
               exact
-              to="/"
+              to={ props.chat ? "/chat/" + props.chatId : "/" }
               activeClassName="text-dark"
               className="text-muted"
               activeStyle={styles.active}
@@ -83,7 +83,7 @@ export default function Info(props) {
             </NavLink>
             <NavLink
               exact
-              to="/contact"
+              to={ props.chat ? "/chat/" + props.chatId + "/invitation" : "/invitation" }
               activeClassName="text-dark"
               className="text-muted"
               activeStyle={styles.active}
@@ -96,13 +96,13 @@ export default function Info(props) {
           <Referral />
           <Route
             exact
-            path="/"
-            render={() => <Contacts contacts={props.contacts} />}
+            path={ props.chat ? "/chat/" + props.chatId : "/" }
+            render={() => <Contacts search={ props.search } contacts={ props.contacts } />}
           />
           <Route
             exact
-            path="/contact"
-            render={() => <Invitations invitations={props.invitations} />}
+            path={ props.chat ? "/chat/" + props.chatId + "/invitation" : "/invitation" }
+            render={() => <Invitations reload={ props.reload } search={ props.search } invitations={ props.invitations } />}
           />
         </Router>
       </div>

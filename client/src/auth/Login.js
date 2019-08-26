@@ -5,6 +5,7 @@
 // Dependencies:
 import React from "react";
 import api from '../api';
+import { Redirect } from "react-router-dom";
 
 // Material UI:
 import Grid from '@material-ui/core/Grid';
@@ -19,9 +20,16 @@ import AuthLink from './components/AuthLink';
 // Login Component
 export default class Login extends React.Component {
 
-  componentDidMount() {
+  componentDidMount = async () => {
     // Set Document Title:
     document.title = "Login - Start Conversing With Friends Today!";
+
+    // Try to make an api request to the server:
+    if (await this.getAuth()) {
+      this.setState({
+        redirect: true
+      });
+    }
   }
 
   constructor(props) {
@@ -30,11 +38,26 @@ export default class Login extends React.Component {
     this.state = {
       password: "",
       email: "",
-      errorMessage: false
+      errorMessage: false,
+      redirect: false
     };
 
     this._handleChange = this._handleChange.bind(this);
     this._onLogin = this._onLogin.bind(this);
+  }
+
+  getAuth = async () => {
+    try {
+      await api.get("/api/user", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      });
+
+      return true;
+    } catch(e) {
+      return false;
+    }
   }
 
   // Event Listener to change state on input:
@@ -73,6 +96,7 @@ export default class Login extends React.Component {
   }
 
   render() {
+    if (this.state.redirect) return <Redirect to="/" />
     return (
       <Grid container style={ styles.root }>
         <CssBaseline />

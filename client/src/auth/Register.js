@@ -5,6 +5,7 @@
 // Dependencies:
 import React from "react";
 import api from "../api";
+import { Redirect } from "react-router-dom";
 
 // Material UI:
 import Grid from "@material-ui/core/Grid";
@@ -24,9 +25,16 @@ import AuthLink from './components/AuthLink';
 // Register Component:
 export default class Register extends React.Component {
 
-  componentDidMount() {
+  componentDidMount = async () => {
     // Set Document Title:
     document.title = "Register - Start Conversing With Friends Today!";
+
+    // Try to make an api request to the server:
+    if (await this.getAuth()) {
+      this.setState({
+        redirect: true
+      });
+    }
   }
 
   constructor(props) {
@@ -37,11 +45,26 @@ export default class Register extends React.Component {
       email: "",
       password: "",
       language: "eng",
-      errorMessage: false
+      errorMessage: false,
+      redirect: false
     }
 
     this._handleChange = this._handleChange.bind(this);
     this._onRegister = this._onRegister.bind(this);
+  }
+
+  getAuth = async () => {
+    try {
+      await api.get("/api/user", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      });
+
+      return true;
+    } catch(e) {
+      return false;
+    }
   }
 
   // Event Listener to Update State:
@@ -83,6 +106,8 @@ export default class Register extends React.Component {
   }
 
   render() {
+    if (this.state.redirect) return <Redirect to="/" />
+
     return (
       <Grid container style={ styles.root }>
         <CssBaseline />
