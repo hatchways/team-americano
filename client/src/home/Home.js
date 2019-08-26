@@ -11,6 +11,9 @@ import api from "../api";
 import Info from "./components/Info";
 import Chat from "./components/Chat";
 
+// Material UI:
+import Hidden from "@material-ui/core/Hidden";
+
 // Home Component:
 export default class Home extends React.Component {
 
@@ -93,10 +96,22 @@ export default class Home extends React.Component {
 
   render() {
     if (this.state.redirect) return <Redirect to="/login" />;
+
+    if (this.props.chat) return (
+      <div style={{ padding: "0", margin: "0" }} className="row">
+        <Hidden xsDown>
+          <Info chatId={this.props.match.params.chat} chat reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
+        </Hidden>
+        <Chat id={this.state.user._id} conversation={this.state.conversation} />
+      </div>
+    );
+
     return (
       <div style={{ padding: "0", margin: "0" }} className="row">
         <Info reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
-        <Chat id={this.state.user._id} conversation={this.state.conversation} />
+        <Hidden xsDown>
+          <Chat id={this.state.user._id} conversation={this.state.conversation} />
+        </Hidden>
       </div>
     );
   }

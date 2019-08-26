@@ -26,8 +26,14 @@ export default class Router extends React.Component {
           <Route path="/login" component={Login} />
           <Route exact={true} path="/" render={props => {
             return (checkAuth() ?
-              <Home /> : <Redirect to="/login" />
-            )}}  />
+              <Home {...props} /> : <Redirect to="/login" />
+            )}}
+          />
+          <Route path="/chat/:chat" render={props => {
+            return (checkAuth() ?
+              <Home {...props} chat /> : <Redirect to="/login" />
+            )}}
+          />
       </BrowserRouter>
     );
   }

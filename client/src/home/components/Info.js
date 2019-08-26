@@ -31,15 +31,15 @@ export default function Info(props) {
         </nav>
         <Router>
           <div style={ styles.linkContainer }>
-            <NavLink exact to="/" activeClassName="text-dark" className="text-muted" activeStyle={ styles.active } style={{ ...styles.link, paddingRight: "16px" }}>Chats</NavLink>
-            <NavLink exact to="/invitation" activeClassName="text-dark" className="text-muted" activeStyle={ styles.active } style={ styles.link }>Invitations</NavLink>
+            <NavLink exact to={ props.chat ? "/chat/" + props.chatId : "/" } activeClassName="text-dark" className="text-muted" activeStyle={ styles.active } style={{ ...styles.link, paddingRight: "16px" }}>Chats</NavLink>
+            <NavLink exact to={ props.chat ? "/chat/" + props.chatId + "/invitation" : "/invitation" } activeClassName="text-dark" className="text-muted" activeStyle={ styles.active } style={ styles.link }>Invitations</NavLink>
           </div>
           <Search search={props.search} updateSearch={props.updateSearch} />
           <Referral />
-          <Route exact path="/" render={() => (
+          <Route exact path={ props.chat ? "/chat/" + props.chatId : "/" } render={() => (
             <Contacts search={ props.search } contacts={ props.contacts } />
           )} />
-          <Route exact path="/invitation" render={() => (
+          <Route exact path={ props.chat ? "/chat/" + props.chatId + "/invitation" : "/invitation" } render={() => (
             <Invitations reload={ props.reload } search={ props.search } invitations={ props.invitations } />
           )} />
         </Router>

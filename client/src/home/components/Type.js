@@ -7,7 +7,6 @@ import React from "react";
 
 // Material UI:
 import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
 
 //Socket IO:
 import * as io from "socket.io-client";
@@ -30,7 +29,7 @@ export default function Type(props) {
   }
 
   return (
-    <div style={styles.container}>
+    <div className="container" style={styles.container}>
       <TextField
         style={styles.type}
         id="searchBar"
@@ -53,7 +52,7 @@ const styles = {
 
   type: {
     width: "98%",
-    margin: "0 auto 6px",
-    fontFamily: "open sans"
+    fontFamily: "open sans",
+    marginBottom: "10px"
   }
 };
