@@ -24,6 +24,15 @@ const messageSchema = new Schema({
     type: objectId,
     ref: "User",
     required: [true, "Message must have a sender."]
+  },
+  language: {
+    type: String,
+    required: [true, "Message must have an original language."]
+  },
+  conversation: {
+    type: objectId,
+    ref: "Conversation",
+    required: [true, "Message must belong to a conversation."]
   }
 });
 
