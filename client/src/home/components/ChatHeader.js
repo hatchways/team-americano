@@ -23,7 +23,7 @@ export default function ChatHeader(props) {
         <div className="navbar-text">
           <Hidden xsDown>
             <span>Original Language</span>
-            <Switch color="default" style={ styles.switch }/>
+            <Switch color="primary" style={ styles.switch }/>
           </Hidden>
           <Link to="/">
             <i className="fas fa-ellipsis-h text-secondary"></i>

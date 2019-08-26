@@ -4,32 +4,28 @@
 
 // Dependencies:
 import React from "react";
+import {DebounceInput} from "react-debounce-input";
 
 // Material UI:
 import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
 
 // Search Component:
 export default function Search(props) {
 
   return (
     <div style={ styles.container }>
-      <TextField
-        style={ styles.search }
-        className="bg-muted"
-        id="searchBar"
-        variant="filled"
+      <DebounceInput
+        onChange={props.updateSearch}
+        debounceTimeout={300}
+        element={TextField}
         placeholder="Search"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <i className="fas fa-search" />
-            </InputAdornment>
-          ),
-          disableUnderline: true,
-          style: { fontFamily: "Open Sans", paddingBottom: "1em" }
+        style={ styles.search }
+        minLength={2}
+        inputProps={{
+          style: { fontFamily: "Open Sans" },
         }}
       />
+      <p style={ styles.result }>Results for: <span className="font-italic">{props.search}</span></p>
     </div>
   );
 }
@@ -37,11 +33,11 @@ export default function Search(props) {
 // Component Styles:
 const styles = {
 
-  container: {
-    padding: "0 10px"
-  },
-
   search: {
     width: "100%"
+  },
+
+  result: {
+    paddingTop: "5px"
   }
 }

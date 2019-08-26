@@ -35,23 +35,23 @@ export default function MessageList(props) {
   return (
     <div style={styles.messageList} >
       <ChatFeed
-      messages={messages}
-      isTyping={false}
-      hasInputField={false}
-      showSenderName
-      bubblesCentered={false}
-      bubbleStyles={
-        {
-          text: {
-            fontSize: 16
-          },
-          chatbubble: {
-            borderRadius: 20,
-            padding: 10
+        messages={messages}
+        isTyping={false}
+        hasInputField={false}
+        showSenderName
+        bubblesCentered={false}
+        bubbleStyles={
+          {
+            text: {
+              fontSize: 16
+            },
+            chatbubble: {
+              borderRadius: 20,
+              padding: 10
+            }
           }
         }
-      }
-    />
+      />
     </div>
   );
 }

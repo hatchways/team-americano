@@ -34,7 +34,7 @@ export default class Home extends React.Component {
     const token = localStorage.getItem("token");
 
     try {
-      const user = await api.get("/api/user", {
+      const user = await api.get("/api/user?q=" + this.state.search, {
         headers: {
           Authorization: "Bearer " + token
         }
@@ -63,6 +63,16 @@ export default class Home extends React.Component {
     }
   }
 
+  updateSearch(e) {
+    this.setState({
+      search: e.target.value
+    });
+  }
+
+  reload() {
+    this.forceUpdate();
+  }
+
   constructor(props) {
     super(props);
 
@@ -73,15 +83,19 @@ export default class Home extends React.Component {
       },
       invitations: [],
       contacts: [],
-      redirect: false
+      redirect: false,
+      search: ""
     };
+
+    this.updateSearch = this.updateSearch.bind(this);
+    this.reload = this.reload.bind(this);
   }
 
   render() {
     if (this.state.redirect) return <Redirect to="/login" />;
     return (
       <div style={{ padding: "0", margin: "0" }} className="row">
-        <Info invitations={this.state.invitations} user={this.state.user} contacts={this.state.contacts} />
+        <Info reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
         <Chat id={this.state.user._id} conversation={this.state.conversation} />
       </div>
     );

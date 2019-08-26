@@ -32,13 +32,14 @@ export default function Invitations(props) {
 
   // Invitation Components:
   const InvitationList = props.invitations.map( (invitation, index) => (
-    <Invitation key={ index } invitation={ invitation } />
+    <Invitation reload={ props.reload } key={ index } invitation={ invitation } />
   ));
 
   return (
     <div className={classes.contactsDiv}>
       <List className={classes.list}>
-        { InvitationList }
+        <p className="font-weight-bold">Invitations:</p>
+        { InvitationList.length ? InvitationList : <p>No new invitations to show.</p> }
       </List>
     </div>
   );

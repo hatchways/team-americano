@@ -32,22 +32,14 @@ export default function Type(props) {
   return (
     <div style={styles.container}>
       <TextField
-        className="bg-muted"
         style={styles.type}
         id="searchBar"
-        variant="filled"
-        placeholder="Type something..."
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="start">
-              <i className="far fa-smile" />
-              <i className="far fa-clone" />
-            </InputAdornment>
-          ),
-          disableUnderline: true,
-          style: { fontFamily: "Open Sans", paddingBottom: "1em" }
-        }}
+        variant="outlined"
+        placeholder="Type a message here"
         onKeyDown={handleInput}
+        inputProps={{
+          style: { fontFamily: "Open Sans" },
+        }}
       />
     </div>
   );
@@ -60,6 +52,8 @@ const styles = {
   },
 
   type: {
-    width: "100%"
+    width: "98%",
+    margin: "0 auto 6px",
+    fontFamily: "open sans"
   }
 };

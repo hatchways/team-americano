@@ -63,12 +63,13 @@ export default function Referral() {
       textTransform: "none",
       border: "none",
       padding: "0",
-      marginLeft: "15px",
-      marginTop: "15px",
       color: "#3A8DFF",
       "&:hover": {
         border: "none"
       }
+    },
+    text: {
+      paddingTop: "20px"
     }
   }));
 
@@ -104,7 +105,7 @@ export default function Referral() {
                 type="email"
                 fullWidth
               />
-              <p>Or share referral link:</p>
+              <p className={classes.text}>Or share referral link:</p>
               <TextField
                 variant="outlined"
                 id="referralLink"
