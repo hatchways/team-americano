@@ -44,7 +44,8 @@ export default function Info(props) {
             <span
               className="font-weight-bold text-dark"
               style={styles.username}
-              {props.user.name}
+            >
+            {props.user.name}
             </span>
           </div>
           <div>
