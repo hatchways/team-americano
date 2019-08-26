@@ -25,7 +25,7 @@ export default class Home extends React.Component {
     const status = await this.callApi();
 
     if (!status) {
-      localStorage.setItem("token", null);
+      localStorage.clear();
       this.setState({
         redirect: true
       });

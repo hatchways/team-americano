@@ -13,7 +13,7 @@ import Home from './home/Home';
 
 // Function to check user authentication:
 const checkAuth = () => {
-  return localStorage.getItem("token") !== "null";
+  return Boolean(localStorage.getItem("token"));
 }
 
 // Router Component:
