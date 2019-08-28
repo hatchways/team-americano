@@ -4,6 +4,7 @@
 
 // Dependencies:
 const Conversation = require("../models/conversation");
+const { Translate } = require("@google-cloud/translate");
 
 // Controllers:
 exports.fetchConversation = async (req, res, next) => {
@@ -16,6 +17,28 @@ exports.fetchConversation = async (req, res, next) => {
     if (!convsersation.users.some( user => user.equals(req.user._id))) {
       throw new Error("Unauthenticated.");
     }
+
+    // Map over the message field and change it to proper format:
+    await Promise.map( async message => {
+      // Get translate function:
+      const translate = new Translate({ projectId: process.env.GOOGLE_CLIENT_KEY });
+
+      // Get text and target language:
+      const text = message.content;
+      const target = req.user.language;
+      const language = message.language;
+
+      // Get translated message:
+      const [translation] = await translate.translate(text, { to: target, from: language });
+
+      // Returned modified message:
+      return {
+        original_message: message.content,
+        translated_message: translation,
+        from_user_id: message.sender,
+        created_at: message.timestamp
+      }
+    });
 
     return res.status(200).json({
       message: "Successfully fetched conversation.",
