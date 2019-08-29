@@ -40,6 +40,28 @@ Server:
 npm run dev
 ```
 
+## General Setup
+The first step is to setup and configure environment variables for the project.
+
+### Server Setup
+* Set the `DATABASE_URL` environment variable. (Where your mongoose database will be hosted from)
+
+```
+> export DATABASE_URL='{DATABASE_URL}'
+```
+
+* Set the `PRIVATE_KEY` environment variable. (Your private key for JWT encryption)
+
+```
+> export PRIVATE_KEY='{PRIVATE_KEY}'
+```
+
+* Set the `GOOGLE_CLIENT_KEY` environment variable. (Your project id for google translate API)
+
+```
+> export GOOGLE_CLIENT_KEY='{GOOGLE_CLIENT_KEY}'
+```
+
 ## Built With
 * [ReactJS](https://reactjs.org) - Frontend Framework used.
 * [NodeJS](https://nodejs.org) - Backend Language used.
