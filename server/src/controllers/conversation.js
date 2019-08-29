@@ -1,5 +1,5 @@
 // ==============================================
-// Invitation Route Controllers
+// Convsersation Route Controllers
 // ==============================================
 
 // Dependencies:
@@ -19,7 +19,7 @@ exports.fetchConversation = async (req, res, next) => {
     }
 
     // Map over the message field and change it to proper format:
-    await Promise.map( async message => {
+    conversation.messages = await Promise.map( conversation.messages, async message => {
       // Get translate function:
       const translate = new Translate({ projectId: process.env.GOOGLE_CLIENT_KEY });
 
