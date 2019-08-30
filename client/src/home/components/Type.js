@@ -25,11 +25,13 @@ export default function Type(props) {
 
   // Emit "chat message" event to server when user hits enter
   function handleInput(e) {
+    // Emit "typing" event
     console.log("You are typing");
     typing = true;
     socket.emit("typing", "typing...");
     clearTimeout(timeout);
     timeout = setTimeout(timeoutFunction, 2000);
+
     if (e.keyCode === 13) {
       socket.emit("chat message", {
         timestamp: Date(Date.now()).toString(),
