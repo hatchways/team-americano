@@ -51,6 +51,12 @@ io.on("connection", function(socket) {
     console.log("messageData: " + JSON.stringify(msg));
     io.sockets.emit("new message", JSON.stringify(msg));
   });
+
+  // User is typing
+  socket.on("typing", function(msg) {
+    console.log("User is typing");
+    io.sockets.emit("typing", msg);
+  });
 });
 
 /**

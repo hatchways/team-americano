@@ -15,8 +15,21 @@ import * as io from "socket.io-client";
 export default function Type(props) {
   const socket = io();
 
+  let timeout;
+  let typing;
+
+  function timeoutFunction() {
+    typing = false;
+    socket.emit("typing", false);
+  }
+
   // Emit "chat message" event to server when user hits enter
   function handleInput(e) {
+    console.log("You are typing");
+    typing = true;
+    socket.emit("typing", "typing...");
+    clearTimeout(timeout);
+    timeout = setTimeout(timeoutFunction, 2000);
     if (e.keyCode === 13) {
       socket.emit("chat message", {
         timestamp: Date(Date.now()).toString(),
@@ -37,7 +50,7 @@ export default function Type(props) {
         placeholder="Type a message here"
         onKeyDown={handleInput}
         inputProps={{
-          style: { fontFamily: "Open Sans" },
+          style: { fontFamily: "Open Sans" }
         }}
       />
     </div>
