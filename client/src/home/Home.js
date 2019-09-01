@@ -4,8 +4,9 @@
 
 // Dependencies:
 import React from "react";
-import { Redirect } from "react-router-dom";
-import api from "../api";
+
+// Services:
+import { userService } from "../services";
 
 // Components:
 import Info from "./components/Info";
@@ -22,48 +23,14 @@ export default class Home extends React.Component {
     document.title = "Start conversing with friends today!";
 
     // API Call:
-    const status = await this.callApi();
+    const contacts = await userService.getConversations(this.state.search);
+    const invitations = await userService.getInvitations();
 
-    if (!status) {
-      localStorage.clear();
-      this.setState({
-        redirect: true
-      });
-    }
-
-  }
-
-  callApi = async () => {
-    const token = localStorage.getItem("token");
-
-    try {
-      const user = await api.get("/api/user?q=" + this.state.search, {
-        headers: {
-          Authorization: "Bearer " + token
-        }
-      });
-      const { data } = user.data;
-      const invitations = await api.get("/api/invitation", {
-        headers: {
-          Authorization: "Bearer " + token
-        }
-      });
-
-      this.setState({
-        user: {
-          name: data.name,
-          email: data.email,
-          _id: data._id,
-          language: data.language
-        },
-        invitations: invitations.data.data,
-        contacts: data.contacts
-      });
-      return true;
-    } catch(e) {
-      console.log(e);
-      return false;
-    }
+    // Set State:
+    this.setState({
+      contacts,
+      invitations
+    });
   }
 
   updateSearch(e) {
@@ -80,13 +47,12 @@ export default class Home extends React.Component {
     super(props);
 
     this.state = {
-      user: "",
+      user: JSON.parse(localStorage.getItem("currentUser")),
       conversation: {
         name: "Ashanti"
       },
       invitations: [],
       contacts: [],
-      redirect: false,
       search: ""
     };
 
@@ -95,12 +61,10 @@ export default class Home extends React.Component {
   }
 
   render() {
-    if (this.state.redirect) return <Redirect to="/login" />;
-
     if (this.props.chat) return (
       <div style={{ padding: "0", margin: "0" }} className="row">
         <Hidden xsDown>
-          <Info chatId={this.props.match.params.chat} chat reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
+          <Info history={this.props.history} chatId={this.props.match.params.chat} chat reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
         </Hidden>
         <Chat id={this.state.user._id} conversation={this.state.conversation} />
       </div>
@@ -108,7 +72,7 @@ export default class Home extends React.Component {
 
     return (
       <div style={{ padding: "0", margin: "0" }} className="row">
-        <Info reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
+        <Info history={this.props.history} reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
         <Hidden xsDown>
           <Chat id={this.state.user._id} conversation={this.state.conversation} />
         </Hidden>

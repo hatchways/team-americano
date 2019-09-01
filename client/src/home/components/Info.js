@@ -3,11 +3,12 @@
 // ==============================================
 
 // Dependencies:
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Avatar from "react-avatar";
+
+// Material UI:
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -28,7 +29,8 @@ export default function Info(props) {
 
   function handleLogout() {
     setAnchorEl(null);
-    localStorage.clear();
+    localStorage.removeItem("token");
+    return props.history.push("/login");
   }
 
   function handleClose() {

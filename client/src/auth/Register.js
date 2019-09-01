@@ -4,8 +4,9 @@
 
 // Dependencies:
 import React from "react";
-import api from "../api";
-import { Redirect } from "react-router-dom";
+
+// Services:
+import { authenticationService } from "../services";
 
 // Material UI:
 import Grid from "@material-ui/core/Grid";
@@ -28,13 +29,6 @@ export default class Register extends React.Component {
   componentDidMount = async () => {
     // Set Document Title:
     document.title = "Register - Start Conversing With Friends Today!";
-
-    // Try to make an api request to the server:
-    if (await this.getAuth()) {
-      this.setState({
-        redirect: true
-      });
-    }
   }
 
   constructor(props) {
@@ -45,26 +39,11 @@ export default class Register extends React.Component {
       email: "",
       password: "",
       language: "eng",
-      errorMessage: false,
-      redirect: false
+      errorMessage: false
     }
 
     this._handleChange = this._handleChange.bind(this);
     this._onRegister = this._onRegister.bind(this);
-  }
-
-  getAuth = async () => {
-    try {
-      await api.get("/api/user", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token")
-        }
-      });
-
-      return true;
-    } catch(e) {
-      return false;
-    }
   }
 
   // Event Listener to Update State:
@@ -82,22 +61,8 @@ export default class Register extends React.Component {
     e.preventDefault();
 
     try {
-      const response = await api.post("/api/auth/register", {
-        email: this.state.email,
-        name: this.state.name,
-        password: this.state.password,
-        language: this.state.language
-      });
-
-      if (response.status === 201) {
-        // Set Token:
-        const { token } = response.data;
-        localStorage.setItem("token", token);
-
-        this.props.history.push("/");
-      } else {
-        throw new Error();
-      }
+      await authenticationService.register(this.state.email, this.state.name, this.state.password, this.state.language);
+      this.props.history.push("/");
     } catch(e) {
       this.setState({
         errorMessage: true
@@ -106,8 +71,6 @@ export default class Register extends React.Component {
   }
 
   render() {
-    if (this.state.redirect) return <Redirect to="/" />
-
     return (
       <Grid container style={ styles.root }>
         <CssBaseline />

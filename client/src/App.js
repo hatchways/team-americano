@@ -1,17 +1,36 @@
+// ==============================================
+// React Application:
+// ==============================================
+
+// Dependencies:
 import React from "react";
+import { CookiesProvider } from "react-cookie";
 import { MuiThemeProvider } from "@material-ui/core";
 
-import { theme } from "./themes/theme";
-import Router from "./router";
+// Services:
+import { authenticationService } from "./services";
 
+// Components:
+import { theme } from "./themes/theme";
+import Router from "./Router";
+
+// Css:
 import "./App.css";
 
-function App() {
-  return (
-    <MuiThemeProvider theme={theme}>
-      <Router />
-    </MuiThemeProvider>
-  );
-}
+// Application:
+export default class App extends React.Component {
 
-export default App;
+  async componentDidMount() {
+    await authenticationService.getAuthentication();
+  }
+
+  render() {
+    return (
+      <CookiesProvider>
+        <MuiThemeProvider theme={theme}>
+          <Router />
+        </MuiThemeProvider>
+      </CookiesProvider>
+    );
+  }
+}
