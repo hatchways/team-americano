@@ -8,6 +8,9 @@ import { NavLink } from "react-router-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Avatar from "react-avatar";
 
+// Services:
+import { authenticationService } from "../../services";
+
 // Material UI:
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
@@ -27,9 +30,9 @@ export default function Info(props) {
     setAnchorEl(e.currentTarget);
   }
 
-  function handleLogout() {
+  async function handleLogout() {
     setAnchorEl(null);
-    localStorage.removeItem("token");
+    await authenticationService.logout();
     return props.history.push("/login");
   }
 

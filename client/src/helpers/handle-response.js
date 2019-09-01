@@ -1,23 +1,19 @@
 // ==============================================
-// Handle Server Codes
+// Handle Response Helper:
 // ==============================================
 
 // Services:
 import { authenticationService } from "../services";
 
-// Function to handle api response:
+// Export function:
 export const handleResponse = response => {
-  return response.text().then(text => {
-    const data = text && JSON.parse(text);
-    if (!response.ok) {
-      if ([401, 403].includes(response.status)) {
-        authenticationService.logout();
-      }
-
-      const error = (data && data.message) || response.statusText;
-      return Promise.rejects(error);
+  if (!response.status === 200 || !response.status === 201) {
+    if ([401, 403].includes(response.status)) {
+      // Logout User:
+      authenticationService.logout();
     }
 
-    return data;
-  });
+    throw new Error("Error handling Response.");
+  }
+  return response.data;
 }

@@ -4,7 +4,6 @@
 
 // Dependencies:
 import React from "react";
-import { CookiesProvider } from "react-cookie";
 import { MuiThemeProvider } from "@material-ui/core";
 
 // Services:
@@ -26,11 +25,9 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <CookiesProvider>
-        <MuiThemeProvider theme={theme}>
-          <Router />
-        </MuiThemeProvider>
-      </CookiesProvider>
+      <MuiThemeProvider theme={theme}>
+        <Router />
+      </MuiThemeProvider>
     );
   }
 }

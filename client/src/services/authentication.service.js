@@ -22,7 +22,7 @@ class Authentication {
       });
 
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("currentUser", response.data.data);
+      localStorage.setItem("currentUser", JSON.stringify(response.data.data));
       this.authenticated = true;
 
       return this.authenticated;
@@ -42,7 +42,7 @@ class Authentication {
       });
 
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("currentUser", response.data.data);
+      localStorage.setItem("currentUser", JSON.stringify(response.data.data));
       this.authenticated = true;
 
       return this.authenticated;
@@ -68,9 +68,9 @@ class Authentication {
       const response = await api.get("/api/auth", {
         headers: authHeader
       });
-      const data = await handleResponse(response);
+      const data = handleResponse(response);
 
-      localStorage.setItem("currentUser", data);
+      localStorage.setItem("currentUser", JSON.stringify(data.data));
       this.authenticated = true;
     } catch(e) {
       this.authenticated = false;
@@ -81,4 +81,4 @@ class Authentication {
 
 // Singleton pattern,
 // Export Authentication:
-export const authenticationService = Authentication();
+export const authenticationService = new Authentication();

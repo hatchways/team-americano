@@ -19,7 +19,7 @@ export default function Motto(props) {
       <Hidden xsDown>
         <div style={ styles.motto }>
           <div style={ styles.speechIcon }>
-            <i class="far fa-comment-dots fa-5x" />
+            <i className="far fa-comment-dots fa-5x" />
           </div>
           <p>Converse with anyone with any language.</p>
         </div>

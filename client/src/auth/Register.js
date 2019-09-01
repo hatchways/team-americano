@@ -61,8 +61,8 @@ export default class Register extends React.Component {
     e.preventDefault();
 
     try {
-      await authenticationService.register(this.state.email, this.state.name, this.state.password, this.state.language);
-      this.props.history.push("/");
+      const status = await authenticationService.register(this.state.email, this.state.name, this.state.password, this.state.language);
+      if (status) this.props.history.push("/");
     } catch(e) {
       this.setState({
         errorMessage: true
@@ -84,7 +84,7 @@ export default class Register extends React.Component {
                 type="email"
                 variant="standard"
                 margin="normal"
-                required="true"
+                required
                 fullWidth
                 id="email"
                 label="Email Address"
@@ -100,7 +100,7 @@ export default class Register extends React.Component {
                 type="password"
                 variant="standard"
                 margin="normal"
-                required="true"
+                required
                 fullWidth
                 id="password"
                 label="Password"
@@ -117,7 +117,7 @@ export default class Register extends React.Component {
                 type="name"
                 variant="standard"
                 margin="normal"
-                required="true"
+                required
                 fullWidth
                 id="name"
                 label="Your name"

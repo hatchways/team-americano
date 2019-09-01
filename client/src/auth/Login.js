@@ -53,8 +53,8 @@ export default class Login extends React.Component {
   _onLogin = async e => {
     e.preventDefault();
     try {
-      await authenticationService.login(this.state.email, this.state.password);
-      this.props.history.push("/");
+      const status = await authenticationService.login(this.state.email, this.state.password);
+      if (status) this.props.history.push("/");
     } catch (e) {
       this.setState({
         errorMessage: true
@@ -67,7 +67,7 @@ export default class Login extends React.Component {
       <Grid container style={ styles.root }>
         <CssBaseline />
         <Motto />
-        <Grid item xs={12} elevation={6} sm={8} square>
+        <Grid item xs={12} elevation={6} sm={8}>
           <AuthLink text="Don't have an account?" button="Create" location="/register" />
           <Grid container>
             <form style={ styles.form }>
@@ -76,7 +76,7 @@ export default class Login extends React.Component {
                 type="email"
                 variant="standard"
                 margin="normal"
-                required="true"
+                required
                 fullWidth
                 id="email"
                 label="Email Address"
@@ -92,7 +92,7 @@ export default class Login extends React.Component {
                 type="password"
                 variant="standard"
                 margin="normal"
-                required="true"
+                required
                 fullWidth
                 id="password"
                 label="Password"
