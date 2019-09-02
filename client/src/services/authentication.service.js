@@ -11,7 +11,12 @@ import { handleResponse, authHeader } from "../helpers";
 // Authentication Service:
 class Authentication {
   constructor() {
-    this.authenticated = false;
+
+    if (localStorage.getItem("currentUser")) {
+      this.authenticated = true;
+    } else {
+      this.authenticated = false;
+    }
   }
 
   async login(email, password) {
@@ -57,10 +62,6 @@ class Authentication {
     localStorage.removeItem("token");
 
     this.authenticated = false;
-  }
-
-  get authentication() {
-    return this.authenticated;
   }
 
   async getAuthentication() {
