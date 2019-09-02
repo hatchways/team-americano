@@ -23,7 +23,7 @@ describe("User", () => {
   describe("/GET user", () => {
     it("It should return unauthorized since there is no logged in user", done => {
       chai.request(app)
-        .get("/api/user")
+        .get("/api/auth")
         .end((err, res) => {
           res.should.have.status(401);
         });
