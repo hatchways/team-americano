@@ -4,8 +4,10 @@
 
 // Dependencies:
 import React from "react";
-import api from "../../api";
 import Avatar from "react-avatar";
+
+// Services:
+import { invitationService } from "../../services";
 
 // Material UI:
 import Paper from "@material-ui/core/Paper";
@@ -50,29 +52,10 @@ export default function Invitation(props) {
 
   const classes = useStyles();
 
-  const token = localStorage.getItem("token");
-
-  const acceptInvitation = async () => {
-
+  const respondToInvitations = async (response) => {
     try {
-      await api.put("/api/invitation/" + props.invitation._id + "/accept", {}, {
-        headers: {
-          Authorization: "Bearer " + token
-        }
-      });
+      await invitationService.respondToInvitation(props.id, response);
     } catch(e) {
-      console.log(e);
-    }
-  }
-
-  const ignoreInvitation = async () => {
-    try {
-      await api.put("/api/invitation/" + props.invitation._id + "/ignore", {}, {
-        headers: {
-          Authorization: "Bearer " + token
-        }
-      });
-    } catch (e) {
       console.log(e);
     }
   }
@@ -85,8 +68,8 @@ export default function Invitation(props) {
         </ListItemAvatar>
         <ListItemText disableTypography primary={ props.invitation.requester.name } />
         <div className={classes.userActionsDiv}>
-          <Button onClick={ ignoreInvitation } className={classes.userActionButton}>Ignore</Button>
-          <Button onClick={ acceptInvitation } className={classes.userActionButton}>Accept</Button>
+          <Button onClick={ respondToInvitations("ignore") } className={classes.userActionButton}>Ignore</Button>
+          <Button onClick={ respondToInvitations("accept") } className={classes.userActionButton}>Accept</Button>
         </div>
       </ListItem>
     </Paper>

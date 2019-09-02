@@ -7,7 +7,7 @@ import React from "react";
 import queryString from "query-string";
 
 // Services:
-import { userService } from "../services";
+import { userService, invitationService } from "../services";
 
 // Components:
 import Info from "./components/Info";
@@ -27,7 +27,7 @@ export default class Home extends React.Component {
     const { chat, q } = queryString.parse(this.props.location.search);
 
     // API Call:
-    const invitations = await userService.getInvitations();
+    const invitations = await invitationService.getAll();
     const contacts = await userService.getConversations(this.state.search);
 
     // Set State:
