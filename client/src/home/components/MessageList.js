@@ -33,7 +33,7 @@ export default function MessageList(props) {
   });
 
   return (
-    <div className="container" style={styles.messageList} >
+    <div className="container-fluid" style={styles.messageList} >
       <ChatFeed
         messages={messages}
         isTyping={false}
