@@ -13,12 +13,10 @@ import * as io from "socket.io-client";
 
 // Type Component:
 export default function Type(props) {
-  const socket = io();
-
   // Emit "chat message" event to server when user hits enter
   function handleInput(e) {
     if (e.keyCode === 13) {
-      socket.emit("chat message", {
+      props.connection.emit("chat message", {
         timestamp: Date(Date.now()).toString(),
         sender: props.id,
         content: e.target.value
@@ -37,7 +35,7 @@ export default function Type(props) {
         placeholder="Type a message here"
         onKeyDown={handleInput}
         inputProps={{
-          style: { fontFamily: "Open Sans" },
+          style: { fontFamily: "Open Sans" }
         }}
       />
     </div>

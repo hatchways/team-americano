@@ -4,12 +4,10 @@
 
 // Dependencies:
 import React from "react";
+import { useState } from "react";
 import { ChatFeed, Message } from "react-chat-ui";
 
-// Socket IO:
-import * as io from "socket.io-client";
-
-const messages = [
+let messages = [
   new Message({
     id: 1,
     message: "Hey there"
@@ -26,31 +24,40 @@ const messages = [
 
 // Message List Component:
 export default function MessageList(props) {
+  const [messagesList, setMessagesList] = useState([]);
+
   // Listening to "new message" event emitted from the server
-  const socket = io();
-  socket.on("new message", function(msg) {
-    console.log(msg);
+  // Add msg content to messages list
+  props.connection.on("new message", function(msg) {
+    msg = JSON.parse(msg);
+    let updatedMessagesList = messagesList;
+    updatedMessagesList.push(
+      new Message({
+        id: 0,
+        message: msg.content
+      })
+    );
+    console.log(updatedMessagesList);
+    setMessagesList([...updatedMessagesList]);
   });
 
   return (
-    <div className="container" style={styles.messageList} >
+    <div className="container" style={styles.messageList}>
       <ChatFeed
-        messages={messages}
+        messages={messagesList}
         isTyping={false}
         hasInputField={false}
         showSenderName
         bubblesCentered={false}
-        bubbleStyles={
-          {
-            text: {
-              fontSize: 16
-            },
-            chatbubble: {
-              borderRadius: 20,
-              padding: 10
-            }
+        bubbleStyles={{
+          text: {
+            fontSize: 16
+          },
+          chatbubble: {
+            borderRadius: 20,
+            padding: 10
           }
-        }
+        }}
       />
     </div>
   );
