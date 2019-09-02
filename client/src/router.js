@@ -21,8 +21,8 @@ export default class Router extends React.Component {
         <Switch>
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
-          <PrivateRoute chat={true} path="/chat/:chat" component={Home} />
-          <PrivateRoute path="/" component={Home} />
+          <PrivateRoute exact chat path="/chat" component={Home} />
+          <PrivateRoute exact path="/" component={Home} />
         </Switch>
       </BrowserRouter>
     );
