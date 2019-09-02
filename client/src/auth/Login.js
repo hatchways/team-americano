@@ -4,8 +4,9 @@
 
 // Dependencies:
 import React from "react";
-import api from '../api';
-import { Redirect } from "react-router-dom";
+
+// Services:
+import { authenticationService } from "../services";
 
 // Material UI:
 import Grid from '@material-ui/core/Grid';
@@ -23,13 +24,6 @@ export default class Login extends React.Component {
   componentDidMount = async () => {
     // Set Document Title:
     document.title = "Login - Start Conversing With Friends Today!";
-
-    // Try to make an api request to the server:
-    if (await this.getAuth()) {
-      this.setState({
-        redirect: true
-      });
-    }
   }
 
   constructor(props) {
@@ -38,26 +32,11 @@ export default class Login extends React.Component {
     this.state = {
       password: "",
       email: "",
-      errorMessage: false,
-      redirect: false
+      errorMessage: false
     };
 
     this._handleChange = this._handleChange.bind(this);
     this._onLogin = this._onLogin.bind(this);
-  }
-
-  getAuth = async () => {
-    try {
-      await api.get("/api/user", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token")
-        }
-      });
-
-      return true;
-    } catch(e) {
-      return false;
-    }
   }
 
   // Event Listener to change state on input:
@@ -74,20 +53,8 @@ export default class Login extends React.Component {
   _onLogin = async e => {
     e.preventDefault();
     try {
-      const response = await api.post("/api/auth/login", {
-        email: this.state.email,
-        password: this.state.password
-      });
-
-      if (response.status === 200) {
-        // Set Token:
-        const { token } = response.data;
-        localStorage.setItem("token", token);
-
-        this.props.history.push("/");
-      } else {
-        throw new Error();
-      }
+      const status = await authenticationService.login(this.state.email, this.state.password);
+      if (status) this.props.history.push("/");
     } catch (e) {
       this.setState({
         errorMessage: true
@@ -96,12 +63,11 @@ export default class Login extends React.Component {
   }
 
   render() {
-    if (this.state.redirect) return <Redirect to="/" />
     return (
       <Grid container style={ styles.root }>
         <CssBaseline />
         <Motto />
-        <Grid item xs={12} elevation={6} sm={8} square>
+        <Grid item xs={12} elevation={6} sm={8}>
           <AuthLink text="Don't have an account?" button="Create" location="/register" />
           <Grid container>
             <form style={ styles.form }>
@@ -110,7 +76,7 @@ export default class Login extends React.Component {
                 type="email"
                 variant="standard"
                 margin="normal"
-                required="true"
+                required
                 fullWidth
                 id="email"
                 label="Email Address"
@@ -126,7 +92,7 @@ export default class Login extends React.Component {
                 type="password"
                 variant="standard"
                 margin="normal"
-                required="true"
+                required
                 fullWidth
                 id="password"
                 label="Password"

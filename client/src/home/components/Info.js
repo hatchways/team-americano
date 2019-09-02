@@ -3,20 +3,20 @@
 // ==============================================
 
 // Dependencies:
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { BrowserRouter as Router, Route } from "react-router-dom";
 import Avatar from "react-avatar";
+
+// Services:
+import { authenticationService } from "../../services";
+
+// Material UI:
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
 // Components:
-import Search from "./Search";
-import Referral from "./Referral";
-import Contacts from "./Contacts";
-import Invitations from "./Invitations";
+import Feed from "./Feed";
 
 // Info Component:
 export default function Info(props) {
@@ -26,9 +26,10 @@ export default function Info(props) {
     setAnchorEl(e.currentTarget);
   }
 
-  function handleLogout() {
+  async function handleLogout() {
     setAnchorEl(null);
-    localStorage.clear();
+    await authenticationService.logout();
+    return props.history.push("/login");
   }
 
   function handleClose() {
@@ -70,42 +71,12 @@ export default function Info(props) {
             </Menu>
           </div>
         </nav>
-        <Router>
-          <div style={styles.linkContainer}>
-            <NavLink
-              exact
-              to={ props.chat ? "/chat/" + props.chatId : "/" }
-              activeClassName="text-dark"
-              className="text-muted"
-              activeStyle={styles.active}
-              style={{ ...styles.link, paddingRight: "16px" }}
-            >
-              Chats
-            </NavLink>
-            <NavLink
-              exact
-              to={ props.chat ? "/chat/" + props.chatId + "/invitation" : "/invitation" }
-              activeClassName="text-dark"
-              className="text-muted"
-              activeStyle={styles.active}
-              style={styles.link}
-            >
-              Contacts
-            </NavLink>
-          </div>
-          <Search search={props.search} updateSearch={props.updateSearch} />
-          <Referral />
-          <Route
-            exact
-            path={ props.chat ? "/chat/" + props.chatId : "/" }
-            render={() => <Contacts search={ props.search } contacts={ props.contacts } />}
-          />
-          <Route
-            exact
-            path={ props.chat ? "/chat/" + props.chatId + "/invitation" : "/invitation" }
-            render={() => <Invitations reload={ props.reload } search={ props.search } invitations={ props.invitations } />}
-          />
-        </Router>
+        <Feed
+          search={props.search}
+          updateSearch={props.updateSearch}
+          invitations={props.invitations}
+          contacts={props.contacts}
+        />
       </div>
     </div>
   );
@@ -128,19 +99,6 @@ const styles = {
 
   username: {
     paddingLeft: "12px"
-  },
-
-  linkContainer: {
-    padding: "6px 0"
-  },
-
-  link: {
-    fontSize: "18px",
-    textDecoration: "none"
-  },
-
-  active: {
-    fontSize: "24px"
   },
 
   settings: {
