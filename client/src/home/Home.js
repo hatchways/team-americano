@@ -28,7 +28,7 @@ export default class Home extends React.Component {
 
     // API Call:
     const invitations = await invitationService.getAll();
-    const contacts = await conversationService.getConversations(this.state.search);
+    const contacts = await conversationService.getAll(this.state.search);
 
     // Set State:
     this.setState({
