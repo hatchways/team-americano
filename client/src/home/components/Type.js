@@ -27,7 +27,7 @@ export default function Type(props) {
   }
 
   return (
-    <div className="container" style={styles.container}>
+    <div className="container-fluid" style={styles.container}>
       <TextField
         style={styles.type}
         id="searchBar"

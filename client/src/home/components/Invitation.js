@@ -52,11 +52,13 @@ export default function Invitation(props) {
 
   const classes = useStyles();
 
-  const respondToInvitations = async (response) => {
-    try {
-      await invitationService.respondToInvitation(props.id, response);
-    } catch(e) {
-      console.log(e);
+  const respondToInvitations = (response) => {
+    return async () => {
+      try {
+        await invitationService.respondToInvitation(props.id, response);
+      } catch(e) {
+        console.log(e);
+      }
     }
   }
 
