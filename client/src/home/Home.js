@@ -43,16 +43,6 @@ export default class Home extends React.Component {
     });
   }
 
-  toggleInvite() {
-    this.setState({
-      invitation: !this.state.invitation
-    });
-  }
-
-  reload() {
-    this.forceUpdate();
-  }
-
   constructor(props) {
     super(props);
 
@@ -63,13 +53,10 @@ export default class Home extends React.Component {
       },
       invitations: [],
       contacts: [],
-      search: "",
-      invitation: false
+      search: ""
     };
 
     this.updateSearch = this.updateSearch.bind(this);
-    this.reload = this.reload.bind(this);
-    this.toggleInvite = this.toggleInvite.bind(this);
   }
 
   render() {
