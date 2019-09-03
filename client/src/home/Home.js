@@ -7,7 +7,7 @@ import React from "react";
 import queryString from "query-string";
 
 // Services:
-import { invitationService, conversationService } from "../services";
+import { invitationService, conversationService, userService } from "../services";
 
 // Components:
 import Info from "./components/Info";
@@ -28,11 +28,13 @@ export default class Home extends React.Component {
 
     // API Call:
     const invitations = await invitationService.getAll();
-    const contacts = await conversationService.getAll(this.state.search);
+    const contacts = await userService.getContacts(this.state.search);
+    const conversations = await conversationService.getAll(this.state.search);
 
     // Set State:
     this.setState({
       contacts,
+      conversations,
       invitations
     });
   }
@@ -53,6 +55,7 @@ export default class Home extends React.Component {
       },
       invitations: [],
       contacts: [],
+      conversations: [],
       search: ""
     };
 

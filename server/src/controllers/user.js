@@ -6,23 +6,27 @@
 const User = require("../models/user");
 
 // Controllers:
-exports.getAuthenticatedUser = async (req, res, next) => {
-  // Get the authenticated user, a list of their conversations
-  // and a list of all their contacts:
+exports.getContacts = async (req, res, next) => {
+  // Get the currently authenticated users contacts list:
   try {
-    const data = await User.findById(req.user._id)
-      .select("-password")
-      .populate("conversations")
-      .populate("contacts", "name email");
+    const query = { "$regex": req.query.q || "", "$options": "$i" };
+    const data = await User
+      .findById(req.user._id)
+      .select("contacts")
+      .populate({
+        path: "contacts",
+        match: { "$or": [{ "email": query }, { "name": query }]},
+        select: "name email _id"
+      });
 
     return res.status(200).json({
-      message: "Successfully fetched user information.",
+      message: "Successfully fetched user contacts list.",
       data
     });
-  } catch (e) {
-    return res.status(500).json({
-      message: "Error(s) getting authenticated user information.",
+  } catch(e) {
+    res.status(500).json({
+      message: "Error(s) fetching user contacts.",
       errors: e
     });
   }
-};
+}

@@ -14,7 +14,11 @@ router.use(
   passport.authenticate("jwt", { session: false }),
   require("./invitation")
 );
-router.use("/api/user", require("./user"));
+router.use(
+  "/api/user",
+  passport.authenticate("jwt", { session: false }),
+  require("./user")
+);
 router.use(
   "/api/conversation",
   passport.authenticate("jwt", { session: false }),
