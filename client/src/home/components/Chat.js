@@ -48,7 +48,7 @@ export default class Chat extends React.Component {
       >
         <ChatHeader conversation={this.props.conversation} />
         <div>
-          <MessageList connection={socket} />
+          <MessageList messages={this.props.conversation.messages} connection={socket} />
           <Type id={this.props.id} connection={socket} />
         </div>
       </div>
