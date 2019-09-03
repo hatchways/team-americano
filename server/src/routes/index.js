@@ -15,5 +15,10 @@ router.use(
   require("./invitation")
 );
 router.use("/api/user", require("./user"));
+router.use(
+  "/api/conversation",
+  passport.authenticate("jwt", { session: false }),
+  require("./conversation")
+);
 
 module.exports = router;

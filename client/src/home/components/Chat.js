@@ -5,6 +5,9 @@
 // Dependencies:
 import React from "react";
 
+// Socket IO:
+import * as io from "socket.io-client";
+
 // Components:
 import ChatHeader from "./ChatHeader";
 import MessageList from "./MessageList";
@@ -35,13 +38,18 @@ export default class Chat extends React.Component {
       messages: DUMMY_MESSAGES
     };
   }
+
   render() {
+    const socket = io();
     return (
-      <div style={{ padding: "0", height: "100vh" }} className="col-xs-12 col-sm-8">
-        <ChatHeader conversation={ this.props.conversation } />
+      <div
+        style={{ padding: "0", height: "100vh" }}
+        className="col-xs-12 col-sm-8"
+      >
+        <ChatHeader conversation={this.props.conversation} />
         <div>
-          <MessageList />
-          <Type id={ this.props.id } />
+          <MessageList connection={socket} />
+          <Type id={this.props.id} connection={socket} />
         </div>
       </div>
     );
