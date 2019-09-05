@@ -35,13 +35,17 @@ export default function Referral() {
 
   function sendReferral(e) {
     e.preventDefault();
+
     let receiverEmail = document.getElementById("email").value;
+    let referralLink = document.getElementById("referralLink").value;
+
     fetch("/api/referral/referral", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       mode: "cors",
       body: JSON.stringify({
-        email: receiverEmail
+        email: receiverEmail,
+        link: referralLink
       })
     });
   }
