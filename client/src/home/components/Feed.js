@@ -34,11 +34,14 @@ export default function Feed(props) {
           </div>
         )
       }
-      <Search search={props.search} updateSearch={props.updateSearch} />
+      <Search
+        search={props.search}
+        updateSearch={props.updateSearch}
+      />
       <Referral />
       {
         invitation ? (
-          <Invitations invitations={ props.invitations } />
+          <Invitations search={ props.search } users={ props.users } invitations={ props.invitations } />
         ) : (
           <Contacts contacts={ props.contacts } />
         )

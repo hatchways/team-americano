@@ -8,7 +8,7 @@ import queryString from "query-string";
 import { Message } from "react-chat-ui";
 
 // Services:
-import { invitationService, conversationService } from "../services";
+import { invitationService, conversationService, userService } from "../services";
 
 // Components:
 import Info from "./components/Info";
@@ -34,8 +34,23 @@ export default class Home extends React.Component {
     // Set State:
     this.setState({
       contacts,
-      invitations
+      invitations,
+      search: q
     });
+  }
+
+  componentDidUpdate = async (prevProps, prevState) => {
+    console.log(this.state.users);
+    if (prevState.search !== this.state.search) {
+      // Make API call:
+      const contacts = await conversationService.getAll(this.state.search);
+      const users = await userService.getAll(this.state.search, 10);
+
+      this.setState({
+        contacts,
+        users
+      });
+    }
   }
 
   updateSearch(e) {
@@ -61,6 +76,7 @@ export default class Home extends React.Component {
       },
       invitations: [],
       contacts: [],
+      users: [],
       search: ""
     };
 
@@ -71,7 +87,7 @@ export default class Home extends React.Component {
     if (this.props.chat) return (
       <div style={{ padding: "0", margin: "0" }} className="row">
         <Hidden xsDown>
-          <Info toggleInvite={this.toggleInvite} invitation={this.state.invitation} history={this.props.history} chatId={this.props.match.params.chat} chat reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
+          <Info users={this.state.users} invitation={this.state.invitation} history={this.props.history} chatId={this.props.match.params.chat} chat reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
         </Hidden>
         <Chat id={this.state.user._id} conversation={this.state.conversation} />
       </div>
@@ -79,7 +95,7 @@ export default class Home extends React.Component {
 
     return (
       <div style={{ padding: "0", margin: "0" }} className="row">
-        <Info toggleInvite={this.toggleInvite} invitation={this.state.invitation} history={this.props.history} reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
+        <Info users={this.state.users} invitation={this.state.invitation} history={this.props.history} reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
         <Hidden xsDown>
           <Chat id={this.state.user._id} conversation={this.state.conversation} />
         </Hidden>
