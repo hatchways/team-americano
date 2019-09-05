@@ -10,6 +10,8 @@ const conversationController = require("../controllers/conversation");
 const router = express.Router();
 
 // Create Router Handlers:
+router.route("/")
+  .get(conversationController.fetchAllConversations);
 router.route("/:conversationId")
   .get(conversationController.fetchConversation);
 

@@ -32,20 +32,21 @@ exports.getPendingInvitations = async (req, res, next) => {
 exports.sendInvitation = async (req, res, next) => {
   // Create a new invitation to specified user:
   try {
-    if (req.params.userId == req.user._id) {
-      throw new Error("User cannot invite themselves.");
+    if (req.user._id.equals(req.params.userId)) {
+      return res.status(406).json({
+        message: "Error(s) creating invitation.",
+        errors: "Invalid request: User cannot invite themself."
+      });
     }
 
     const user = await User.countDocuments({ _id: req.params.userId });
-
-    if (!user) {
-      throw new Error("Specified user does not exist.");
-    }
-
     const count = await Invitation.countDocuments({ requester: req.user._id, requestee: req.params.userId });
 
-    if (count) {
-      throw new Error("Invitation already exists.");
+    if (!user || count) {
+      return res.status(406).json({
+        message: "Error(s) creating invitation.",
+        errors: "Invalid Request: User does not exist."
+      });
     }
 
     const invitation = new Invitation({
@@ -72,14 +73,18 @@ exports.acceptInvitation = async (req, res, next) => {
   try {
     const invitation = await Invitation.findById(req.params.invitationId);
 
-    console.log(invitation);
     if (invitation.status === "Accepted") {
-      throw new Error("User can't change status of accepted invitation.");
+      return res.status(406).json({
+        message: "Error(s) responding to invitation.",
+        errors: "User cannot change status of accepted invitation."
+      });
     }
 
     if (!req.user._id.equals(invitation.requestee)) {
-      console.log("No reason I go off...");
-      throw new Error("Unauthorized user.");
+      return res.status(401).json({
+        message: "Error(s) responding to invitation.",
+        errors: "Unauthorized!"
+      });
     }
 
     await Invitation.findByIdAndUpdate(req.params.invitationId, { status: "Accepted" });
@@ -109,11 +114,17 @@ exports.ignoreInvitation = async (req, res, next) => {
     const invitation = Invitation.findById(req.params.invitationId);
 
     if (invitation.status === "Accepted") {
-      throw new Error("User can't change status of accepted invitation.");
+      return res.status(406).json({
+        message: "Error(s) responding to invitation.",
+        errors: "User cannot change status of accepted invitation."
+      });
     }
 
     if (!req.user._id.equals(invitation.requestee)) {
-      throw new Error("Unauthorized user.");
+      return res.status(401).json({
+        message: "Error(s) responding to invitation.",
+        errors: "Unauthorized!"
+      });
     }
 
     await Invitation.findByIdAndUpdate(req.params.invitationId, { status: "Ignored" });

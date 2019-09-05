@@ -24,20 +24,11 @@ app.set("port", port);
 var server = http.createServer(app);
 
 /**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on("error", onError);
-server.on("listening", onListening);
-
-/**
  * SocketIO
  */
 var socket = require("socket.io");
 var io = socket(server);
 const Message = require("../src/models/message.js");
-const connect = require("../src/db.js");
 
 io.on("connection", function(socket) {
   // Message to check socket IO is working
@@ -58,6 +49,14 @@ io.on("connection", function(socket) {
     io.sockets.emit("typing", msg);
   });
 });
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on("error", onError);
+server.on("listening", onListening);
 
 /**
  * Normalize a port into a number, string, or false.

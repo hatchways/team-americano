@@ -4,9 +4,29 @@
 
 // Dependencies:
 const Conversation = require("../models/conversation");
+const User = require("../models/user");
 const { Translate } = require("@google-cloud/translate");
 
 // Controllers:
+exports.fetchAllConversations = async (req, res, next) => {
+  // Get all conversations user is participating in:
+  try {
+    const data = await User.findById(req.user._id)
+      .select("conversations")
+      .populate("conversations");
+
+    return res.status(200).json({
+      message: "Successfully fetched user conversations",
+      data
+    });
+  } catch(e) {
+    res.status(500).json({
+      message: "Error(s) fetching all conversaitons.",
+      errors: e
+    });
+  }
+}
+
 exports.fetchConversation = async (req, res, next) => {
   // Get conversation with corresponding conversationId:
   try {
@@ -18,8 +38,7 @@ exports.fetchConversation = async (req, res, next) => {
       throw new Error("Unauthenticated.");
     }
 
-    // Map over the message field and change it to proper format:
-    conversation.messages = await Promise.map( conversation.messages, async message => {
+    const promises = await conversation.messages.map( message => {
       // Get translate function:
       const translate = new Translate({ projectId: process.env.GOOGLE_CLIENT_KEY });
 
@@ -28,22 +47,24 @@ exports.fetchConversation = async (req, res, next) => {
       const target = req.user.language;
       const language = message.language;
 
-      // Get translated message:
-      const [translation] = await translate.translate(text, { to: target, from: language });
-
-      // Returned modified message:
-      return {
-        original_message: message.content,
-        translated_message: translation,
-        from_user_id: message.sender,
-        created_at: message.timestamp
-      }
+      return translate.translate(text, { to: target, from: language })
+        .then( translation => translation )
+        .catch(e => {
+          throw new Error("Failed to translate messages.");
+        });
     });
 
-    return res.status(200).json({
-      message: "Successfully fetched conversation.",
-      data: convsersation
+    const status = Promise.all(promises).then( results => {
+      return res.status(200).json({
+        message: "Successfully fetched conversation.",
+        data: {
+          ...conversation,
+          messages: results
+        }
+      });
     });
+
+    return await status;
   } catch(e) {
     res.status(500).json({
       message: "Error(s) fetching conversation.",
