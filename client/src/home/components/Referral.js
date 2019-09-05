@@ -75,6 +75,17 @@ export default function Referral(props) {
 
   const classes = useStyles();
 
+  const { location } = window;
+  let url = `${location.protocol}//`;
+
+  if (process.env.NODE_ENV === "development") {
+    url += `${location.hostname}:${location.port}`;
+  } else {
+    url += `${location.hostname}`;
+  }
+
+  url += `/join/${props.id}`;
+
   return (
     <div>
       <MuiThemeProvider theme={theme}>
@@ -109,7 +120,7 @@ export default function Referral(props) {
               <TextField
                 variant="outlined"
                 id="referralLink"
-                value={`${window.location.protocol}//${window.location.hostname}:${window.location.port}/join/${props.id}`}
+                value={url}
                 fullWidth
                 InputProps={{
                   endAdornment: (
