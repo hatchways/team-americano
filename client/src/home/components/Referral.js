@@ -36,7 +36,6 @@ export default function Referral() {
   function sendReferral(e) {
     e.preventDefault();
     let receiverEmail = document.getElementById("email").value;
-    console.log(receiverEmail);
     fetch("/api/referral/referral", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
