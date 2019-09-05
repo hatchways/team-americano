@@ -14,10 +14,10 @@ exports.sendReferral = async (req, res) => {
   let transporter = nodemailer.createTransport({
     host: "smtp.ethereal.email",
     port: 587,
-    secure: false, // true for 465, false for other ports
+    secure: false,
     auth: {
-      user: testAccount.user, // generated ethereal user
-      pass: testAccount.pass // generated ethereal password
+      user: testAccount.user,
+      pass: testAccount.pass
     }
   });
 
@@ -34,5 +34,8 @@ exports.sendReferral = async (req, res) => {
     }
     console.log("Message sent!", info.messageId, info.response);
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    console.log(
+      "Copy the Preview URL into your browser's address bar to see a preview of the email"
+    );
   });
 };
