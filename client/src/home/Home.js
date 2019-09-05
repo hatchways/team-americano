@@ -6,6 +6,7 @@
 import React from "react";
 import queryString from "query-string";
 import { tiny } from "tiny-shortener";
+import { Message } from "react-chat-ui";
 
 // Services:
 import { invitationService, conversationService } from "../services";
@@ -74,7 +75,14 @@ export default class Home extends React.Component {
     this.state = {
       user: JSON.parse(localStorage.getItem("currentUser")),
       conversation: {
-        name: "Ashanti"
+        name: "Welcome",
+        messages: [new Message({
+          message: "Welcome!",
+          id: 1
+        }), new Message({
+          message: "Open a conversation to get started chatting with friends.",
+          id: 1
+        })]
       },
       invitations: [],
       contacts: [],
