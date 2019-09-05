@@ -77,6 +77,7 @@ export default function Info(props) {
           updateSearch={props.updateSearch}
           invitations={props.invitations}
           contacts={props.contacts}
+          url={props.url}
         />
       </div>
     </div>
