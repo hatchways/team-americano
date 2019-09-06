@@ -1,5 +1,5 @@
 // ==============================================
-// Auth Route Controllers
+// User Route Controllers
 // ==============================================
 
 // Dependencies:
@@ -26,6 +26,29 @@ exports.getContacts = async (req, res, next) => {
   } catch(e) {
     res.status(500).json({
       message: "Error(s) fetching user contacts.",
+    });
+  }
+}
+
+exports.getAllUsers = async (req, res, next) => {
+  // Get all users matching a query string:
+  try {
+    const query = { "$regex": req.query.q || "", "$options": "i" };
+    const data = await User
+      .find({"$and": [
+        { "$or": [{ "name": query }, { "email": query }]},
+        { "_id": { "$ne": req.user._id, "$nin": req.user.contacts }}
+      ]})
+      .select("_id name email")
+      .limit(parseInt(req.query.limit) || 20);
+
+    return res.status(200).json({
+      message: "Successfully fetched all users from server.",
+      data
+    });
+  } catch(e) {
+    return res.status(500).json({
+      message: "Error(s) fetching users from server.",
       errors: e
     });
   }

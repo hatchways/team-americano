@@ -25,20 +25,23 @@ export default function Feed(props) {
         invitation ? (
           <div style={styles.linkContainer}>
             <span style={{...styles.link, paddingRight: "16px"}} className="text-muted" onClick={_toggleInvite}>Chats</span>
-            <span style={styles.active} className="text-dark" >Contacts</span>
+            <span style={styles.active} className="text-dark" >Invitations</span>
           </div>
         ) : (
           <div style={styles.linkContainer}>
             <span style={{...styles.active, paddingRight: "16px"}} className="text-dark">Chats</span>
-            <span style={styles.link} className="text-muted" onClick={_toggleInvite}>Contacts</span>
+            <span style={styles.link} className="text-muted" onClick={_toggleInvite}>Invitations</span>
           </div>
         )
       }
-      <Search search={props.search} updateSearch={props.updateSearch} />
-      <Referral />
+      <Search
+        search={props.search}
+        updateSearch={props.updateSearch}
+      />
+      <Referral url={props.url} id={props.id} />
       {
         invitation ? (
-          <Invitations invitations={ props.invitations } />
+          <Invitations history={props.history} id={props.id} search={ props.search } users={ props.users } invitations={ props.invitations } />
         ) : (
           <Contacts contacts={ props.contacts } />
         )

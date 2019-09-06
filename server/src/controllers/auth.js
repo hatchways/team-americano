@@ -23,7 +23,7 @@ exports.getAuthenticatedUser = async (req, res, next) => {
       data
     });
   } catch (e) {
-    return res.status(500).json({
+    res.status(500).json({
       message: "Error(s) getting authenticated user information.",
       errors: e
     });
@@ -33,15 +33,13 @@ exports.getAuthenticatedUser = async (req, res, next) => {
 exports.registerUser = async (req, res, next) => {
   // Create new user:
   try {
-    console.log(req.body);
     const user = new User({
       ...req.body
     });
 
+    // Set Bearer Token:
     const result = await user.save();
     const token = await jwt.sign({ id: user._id }, privateKey, signOptions);
-    // Return user and JWT token:
-    res.set("Authorization", "Bearer " + token);
 
     return res.status(201).json({
       message: "Successfully registered new user.",
@@ -54,8 +52,7 @@ exports.registerUser = async (req, res, next) => {
       token
     });
   } catch (e) {
-    console.log(e);
-    return res.status(500).json({
+    res.status(500).json({
       message: "Error(s) registering account.",
       errors: e
     });
@@ -69,7 +66,7 @@ exports.loginUser = async (req, res, next) => {
 
     user.comparePassword(req.body.password, (error, match) => {
       if (!match) {
-        throw new Error("Invalid login credentials.");
+        throw new Error(error);
       }
     });
 

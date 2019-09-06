@@ -1,16 +1,15 @@
 // ==============================================
-// User Routes:
+// Referral Routes
 // ==============================================
 
 // Dependencies:
 const express = require("express");
-const userController = require("../controllers/user");
+const referralController = require("../controllers/referral");
 
 // Create Router:
 const router = express.Router();
 
 // Create Route Handlers:
-router.get("/contacts", userController.getContacts);
-router.get("/", userController.getAllUsers);
+router.post("/referral", referralController.sendReferral);
 
 module.exports = router;

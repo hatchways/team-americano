@@ -30,10 +30,10 @@ class Authentication {
       localStorage.setItem("currentUser", JSON.stringify(response.data.data));
       this.authenticated = true;
 
-      return this.authenticated;
+      return true;
     } catch(e) {
       console.log(e);
-      return this.authenticated;
+      return false;
     }
   }
 
@@ -50,10 +50,10 @@ class Authentication {
       localStorage.setItem("currentUser", JSON.stringify(response.data.data));
       this.authenticated = true;
 
-      return this.authenticated;
+      return true;
     } catch(e) {
       console.log(e);
-      return this.authenticated;
+      return false;
     }
   }
 
@@ -75,6 +75,8 @@ class Authentication {
       this.authenticated = true;
     } catch(e) {
       this.authenticated = false;
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem("token");
     }
   }
 

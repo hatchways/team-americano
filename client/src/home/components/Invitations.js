@@ -11,6 +11,7 @@ import List from "@material-ui/core/List";
 
 // Components:
 import Invitation from "./Invitation";
+import User from "./User";
 
 // Invitations Component:
 export default function Invitations(props) {
@@ -32,12 +33,24 @@ export default function Invitations(props) {
 
   // Invitation Components:
   const InvitationList = props.invitations.map( (invitation, index) => (
-    <Invitation key={ index } invitation={ invitation } />
+    <Invitation history={ props.history } id={ props.id } key={ index } invitation={ invitation } />
   ));
+
+  const UserList = props.users.map( (user, index) => (
+    <User key={ index } user={ user } />
+  ));
+
+  const Users = props.search ? (
+    <div>
+      <p className="font-weight-bold">Users:</p>
+      { UserList.length ? UserList : <p>No matching users found.</p>}
+    </div>
+  ) : null;
 
   return (
     <div className={classes.contactsDiv}>
       <List className={classes.list}>
+        { Users }
         <p className="font-weight-bold">Invitations:</p>
         { InvitationList.length ? InvitationList : <p>No new invitations to show.</p> }
       </List>
