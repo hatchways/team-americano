@@ -33,7 +33,7 @@ export default function Contact(props) {
     },
 
     paper: {
-      margin: "5px",
+      margin: "5px 0",
       backgroundColor: "rgb(249,250,252)",
       "&:hover": {
         backgroundColor: "white"

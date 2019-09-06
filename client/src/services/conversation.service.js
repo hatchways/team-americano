@@ -15,8 +15,7 @@ export const conversationService = {
 }
 
 async function getAll(query="") {
-  const data = await getData(`/api/conversation?q=${query}`);
-  return data.conversations;
+  return await getData(`/api/conversation?q=${query}`);
 }
 
 async function create(...users) {

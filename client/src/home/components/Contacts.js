@@ -38,8 +38,8 @@ export default function Contacts(props) {
   return (
     <div className={classes.contactsDiv}>
       <List className={classes.list}>
-        <p className="font-weight-bold">Chats:</p>
-        { ContactList.length ? ContactList : <p>No chats to show.</p> }
+        <p className="font-weight-bold">Contacts:</p>
+        { ContactList.length ? ContactList : <p>No Contacts to show.</p> }
       </List>
     </div>
   );

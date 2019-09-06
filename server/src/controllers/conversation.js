@@ -21,7 +21,7 @@ exports.fetchAllConversations = async (req, res, next) => {
 
     return res.status(200).json({
       message: "Successfully fetched user conversations",
-      data
+      data: data.conversations
     });
   } catch(e) {
     res.status(500).json({

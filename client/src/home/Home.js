@@ -57,6 +57,7 @@ export default class Home extends React.Component {
     const contacts = await userService.getContacts(this.state.search);
     const conversations = await conversationService.getAll(this.state.search);
 
+    console.log(contacts);
     // Set State:
     this.setState({
       contacts,
@@ -66,10 +67,9 @@ export default class Home extends React.Component {
   }
 
   componentDidUpdate = async (prevProps, prevState) => {
-    console.log(this.state.users);
     if (prevState.search !== this.state.search) {
       // Make API call:
-      const contacts = await conversationService.getAll(this.state.search);
+      const contacts = await userService.getContacts(this.state.search);
       const users = await userService.getAll(this.state.search, 10);
 
       this.setState({

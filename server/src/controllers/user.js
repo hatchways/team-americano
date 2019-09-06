@@ -21,7 +21,7 @@ exports.getContacts = async (req, res, next) => {
 
     return res.status(200).json({
       message: "Successfully fetched user contacts list.",
-      data
+      data: data.contacts
     });
   } catch(e) {
     res.status(500).json({
