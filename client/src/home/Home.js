@@ -25,7 +25,7 @@ export default class Home extends React.Component {
     document.title = "Start conversing with friends today!";
 
     // Get Query String:
-    const { chat, q } = queryString.parse(this.props.location.search);
+    const { chat } = queryString.parse(this.props.location.search);
 
     // API Call:
     const invitations = await invitationService.getAll();
@@ -34,8 +34,7 @@ export default class Home extends React.Component {
     // Set State:
     this.setState({
       contacts,
-      invitations,
-      search: q
+      invitations
     });
   }
 
@@ -87,7 +86,7 @@ export default class Home extends React.Component {
     if (this.props.chat) return (
       <div style={{ padding: "0", margin: "0" }} className="row">
         <Hidden xsDown>
-          <Info users={this.state.users} invitation={this.state.invitation} history={this.props.history} chatId={this.props.match.params.chat} chat reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
+          <Info id={this.state.user._id} users={this.state.users} invitation={this.state.invitation} history={this.props.history} chatId={this.props.match.params.chat} chat reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
         </Hidden>
         <Chat id={this.state.user._id} conversation={this.state.conversation} />
       </div>
@@ -95,7 +94,7 @@ export default class Home extends React.Component {
 
     return (
       <div style={{ padding: "0", margin: "0" }} className="row">
-        <Info users={this.state.users} invitation={this.state.invitation} history={this.props.history} reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
+        <Info id={this.state.user._id} users={this.state.users} invitation={this.state.invitation} history={this.props.history} reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
         <Hidden xsDown>
           <Chat id={this.state.user._id} conversation={this.state.conversation} />
         </Hidden>

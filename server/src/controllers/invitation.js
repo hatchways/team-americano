@@ -99,7 +99,7 @@ exports.acceptInvitation = async (req, res, next) => {
 
     return res.status(200).json({
       message: "Successfully accepted chat invitation."
-    })
+    });
   } catch (e) {
     res.status(500).json({
       message: "Error(s) accepting chat invitation.",

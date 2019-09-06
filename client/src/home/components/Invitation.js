@@ -7,7 +7,7 @@ import React from "react";
 import Avatar from "react-avatar";
 
 // Services:
-import { invitationService } from "../../services";
+import { invitationService, conversationService } from "../../services";
 
 // Material UI:
 import Paper from "@material-ui/core/Paper";
@@ -56,6 +56,9 @@ export default function Invitation(props) {
     return async () => {
       try {
         await invitationService.respondToInvitation(props.invitation._id, response);
+        const id = await conversationService.create(props.invitation._id, props.id);
+
+        props.history.push("/chat?chat=" + id);
       } catch(e) {
         console.log(e);
       }

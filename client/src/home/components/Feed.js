@@ -25,12 +25,12 @@ export default function Feed(props) {
         invitation ? (
           <div style={styles.linkContainer}>
             <span style={{...styles.link, paddingRight: "16px"}} className="text-muted" onClick={_toggleInvite}>Chats</span>
-            <span style={styles.active} className="text-dark" >Contacts</span>
+            <span style={styles.active} className="text-dark" >Invitations</span>
           </div>
         ) : (
           <div style={styles.linkContainer}>
             <span style={{...styles.active, paddingRight: "16px"}} className="text-dark">Chats</span>
-            <span style={styles.link} className="text-muted" onClick={_toggleInvite}>Contacts</span>
+            <span style={styles.link} className="text-muted" onClick={_toggleInvite}>Invitations</span>
           </div>
         )
       }
@@ -41,7 +41,7 @@ export default function Feed(props) {
       <Referral />
       {
         invitation ? (
-          <Invitations search={ props.search } users={ props.users } invitations={ props.invitations } />
+          <Invitations id={props.id} search={ props.search } users={ props.users } invitations={ props.invitations } />
         ) : (
           <Contacts contacts={ props.contacts } />
         )

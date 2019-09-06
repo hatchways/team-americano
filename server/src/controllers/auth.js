@@ -52,7 +52,6 @@ exports.registerUser = async (req, res, next) => {
       token
     });
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       message: "Error(s) registering account.",
       errors: e

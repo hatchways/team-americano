@@ -27,6 +27,46 @@ exports.fetchAllConversations = async (req, res, next) => {
   }
 }
 
+exports.createConversation = async (req, res, next) => {
+  // Create a conversation between multiple users:
+  try {
+    // Make sure request is long enough:
+    if (req.body.users.length <= 1) {
+      return res.status(422).json({
+        message: "Failed to create new conversation.",
+        errors: "Invalid request body."
+      });
+    }
+
+    // Make sure user is in the body:
+    if (!req.body.users.some( user => req.user._id.equals(user))) {
+      return res.status(401).json({
+        message: "Error(s) creating new conversation.",
+        errors: "Unauthorized!"
+      });
+    }
+
+    const conversation = new Conversation({
+      users: req.body.users
+    });
+    const result = await conversation.save();
+
+    await Promise.all(await req.body.users.map( async userId => {
+      await User.findByIdAndUpdate(userId, { "$push": { conversations: result._id }});
+    }));
+
+    return res.status(201).json({
+      message: "Successfully created new conversation.",
+      data: result._id
+    });
+  } catch(e) {
+    return res.status(500).json({
+      message: "Failed to create new conversation.",
+      errors: e
+    });
+  }
+}
+
 exports.fetchConversation = async (req, res, next) => {
   // Get conversation with corresponding conversationId:
   try {
