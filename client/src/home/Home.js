@@ -101,7 +101,7 @@ export default class Home extends React.Component {
       invitations: [],
       contacts: [],
       users: [],
-      search: ""
+      search: "",
       url: ""
     };
 
