@@ -15,7 +15,7 @@ import { makeStyles } from "@material-ui/styles";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 // Referral Component:
-export default function Referral() {
+export default function Referral(props) {
   const [open, setOpen] = React.useState(false);
 
   function handleClickOpen() {
@@ -126,7 +126,7 @@ export default function Referral() {
               <TextField
                 variant="outlined"
                 id="referralLink"
-                value="https://www.messenger.com/join/363274"
+                value={props.url + "/join/" + props.id}
                 fullWidth
                 InputProps={{
                   endAdornment: (
