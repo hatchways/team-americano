@@ -9,7 +9,7 @@ import { tiny } from "tiny-shortener";
 import { Message } from "react-chat-ui";
 
 // Services:
-import { invitationService, conversationService } from "../services";
+import { invitationService, conversationService, userService } from "../services";
 
 // Components:
 import Info from "./components/Info";
@@ -49,18 +49,34 @@ export default class Home extends React.Component {
     this.tinyUrl();
 
     // Get Query String:
-    const { chat, q } = queryString.parse(this.props.location.search);
+    const { chat } = queryString.parse(this.props.location.search);
 
     // API Call:
     const invitations = await invitationService.getAll();
-    const contacts = await conversationService.getAll(this.state.search);
+    const contacts = await userService.getContacts(this.state.search);
+    const conversations = await conversationService.getAll(this.state.search);
 
+    console.log(contacts);
     // Set State:
     this.setState({
       contacts,
+      conversations,
       invitations
     });
   };
+
+  componentDidUpdate = async (prevProps, prevState) => {
+    if (prevState.search !== this.state.search) {
+      // Make API call:
+      const contacts = await userService.getContacts(this.state.search);
+      const users = await userService.getAll(this.state.search, 10);
+
+      this.setState({
+        contacts,
+        users
+      });
+    }
+  }
 
   updateSearch(e) {
     this.setState({
@@ -89,6 +105,8 @@ export default class Home extends React.Component {
       },
       invitations: [],
       contacts: [],
+      conversations: [],
+      users: [],
       search: "",
       url: ""
     };
@@ -110,12 +128,10 @@ export default class Home extends React.Component {
           <Hidden xsDown>
             <Info
               url={this.state.url}
-              toggleInvite={this.toggleInvite}
+              users={this.state.users}
               invitation={this.state.invitation}
               history={this.props.history}
               chatId={this.props.match.params.chat}
-              chat
-              reload={this.reload}
               search={this.state.search}
               updateSearch={this.updateSearch}
               contacts={this.state.contacts}
@@ -133,10 +149,10 @@ export default class Home extends React.Component {
       <div style={{ padding: "0", margin: "0" }} className="row">
         <Info
           url={this.state.url}
-          toggleInvite={this.toggleInvite}
+          users={this.state.users}
           invitation={this.state.invitation}
           history={this.props.history}
-          reload={this.reload}
+          chatId={this.props.match.params.chat}
           search={this.state.search}
           updateSearch={this.updateSearch}
           contacts={this.state.contacts}

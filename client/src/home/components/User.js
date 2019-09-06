@@ -1,5 +1,5 @@
 // ==============================================
-// Invitation Component:
+// User Component:
 // ==============================================
 
 // Dependencies:
@@ -7,7 +7,7 @@ import React from "react";
 import Avatar from "react-avatar";
 
 // Services:
-import { invitationService, conversationService } from "../../services";
+import { invitationService } from "../../services";
 
 // Material UI:
 import Paper from "@material-ui/core/Paper";
@@ -18,7 +18,7 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core";
 
 // Invitation Component:
-export default function Invitation(props) {
+export default function User(props) {
 
   // Styles:
   const useStyles = makeStyles(theme => ({
@@ -52,29 +52,19 @@ export default function Invitation(props) {
 
   const classes = useStyles();
 
-  const respondToInvitations = (response) => {
-    return async () => {
-      try {
-        await invitationService.respondToInvitation(props.invitation._id, response);
-        const id = await conversationService.create(props.invitation._id, props.id);
-
-        props.history.push("/chat?chat=" + id);
-      } catch(e) {
-        console.log(e);
-      }
-    }
+  const invite = () => {
+    return async () => invitationService.createInvitation(props.user._id);
   }
 
   return (
     <Paper className={classes.paper}>
       <ListItem className={classes.listItem}>
         <ListItemAvatar>
-          <Avatar name={ props.invitation.requester.name } round size="40" />
+          <Avatar name={ props.user.name } round size="40" />
         </ListItemAvatar>
-        <ListItemText disableTypography primary={ props.invitation.requester.name } />
+        <ListItemText disableTypography primary={ props.user.name } />
         <div className={classes.userActionsDiv}>
-          <Button onClick={ respondToInvitations("ignore") } className={classes.userActionButton}>Ignore</Button>
-          <Button onClick={ respondToInvitations("accept") } className={classes.userActionButton}>Accept</Button>
+          <Button onClick={ invite() } className={classes.userActionButton}>Invite</Button>
         </div>
       </ListItem>
     </Paper>
