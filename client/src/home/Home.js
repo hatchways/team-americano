@@ -54,20 +54,22 @@ export default class Home extends React.Component {
 
     // API Call:
     const invitations = await invitationService.getAll();
-    const contacts = await conversationService.getAll(this.state.search);
+    const contacts = await userService.getContacts(this.state.search);
+    const conversations = await conversationService.getAll(this.state.search);
 
+    console.log(contacts);
     // Set State:
     this.setState({
       contacts,
+      conversations,
       invitations
     });
   }
 
   componentDidUpdate = async (prevProps, prevState) => {
-    console.log(this.state.users);
     if (prevState.search !== this.state.search) {
       // Make API call:
-      const contacts = await conversationService.getAll(this.state.search);
+      const contacts = await userService.getContacts(this.state.search);
       const users = await userService.getAll(this.state.search, 10);
 
       this.setState({
@@ -100,6 +102,7 @@ export default class Home extends React.Component {
       },
       invitations: [],
       contacts: [],
+      conversations: [],
       users: [],
       search: "",
       url: ""

@@ -42,7 +42,7 @@ export default function User(props) {
       fontFamily: "Open Sans"
     },
     paper: {
-      margin: "5px",
+      margin: "5px 0",
       backgroundColor: "rgb(249,250,252)",
       "&:hover": {
         backgroundColor: "white"
