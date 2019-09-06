@@ -28,6 +28,7 @@ export default class Register extends React.Component {
   componentDidMount = async () => {
     // Set Document Title:
     document.title = "Register - Start Conversing With Friends Today!";
+    console.log(this.props.isReferral);
   };
 
   constructor(props) {
@@ -66,7 +67,20 @@ export default class Register extends React.Component {
         this.state.password,
         this.state.language
       );
-      if (status) this.props.history.push("/");
+      if (status) {
+        // Add query parameter to homepage if user comes from referral link
+        let path = "";
+        if (this.props.isReferral) {
+          path += "?isreferral=true";
+          this.props.history.push({
+            pathname: "/",
+            search: path,
+            state: { isReferral: "true" }
+          });
+        } else {
+          this.props.history.push("/");
+        }
+      }
     } catch (e) {
       this.setState({
         errorMessage: true

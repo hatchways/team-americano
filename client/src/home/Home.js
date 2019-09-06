@@ -20,7 +20,6 @@ import Hidden from "@material-ui/core/Hidden";
 
 // Home Component:
 export default class Home extends React.Component {
-
   tinyUrl = async () => {
     const { location } = window;
     let url = `${location.protocol}//`;
@@ -34,13 +33,13 @@ export default class Home extends React.Component {
       this.setState({
         url: alias
       });
-    } catch(e) {
+    } catch (e) {
       console.log("Error", e);
       this.setState({
         url
-      })
+      });
     }
-  }
+  };
 
   componentDidMount = async () => {
     // Set Document Title:
@@ -61,7 +60,7 @@ export default class Home extends React.Component {
       contacts,
       invitations
     });
-  }
+  };
 
   updateSearch(e) {
     this.setState({
@@ -76,13 +75,17 @@ export default class Home extends React.Component {
       user: JSON.parse(localStorage.getItem("currentUser")),
       conversation: {
         name: "Welcome",
-        messages: [new Message({
-          message: "Welcome!",
-          id: 1
-        }), new Message({
-          message: "Open a conversation to get started chatting with friends.",
-          id: 1
-        })]
+        messages: [
+          new Message({
+            message: "Welcome!",
+            id: 1
+          }),
+          new Message({
+            message:
+              "Open a conversation to get started chatting with friends.",
+            id: 1
+          })
+        ]
       },
       invitations: [],
       contacts: [],
@@ -95,20 +98,56 @@ export default class Home extends React.Component {
   }
 
   render() {
-    if (this.props.chat) return (
-      <div style={{ padding: "0", margin: "0" }} className="row">
-        <Hidden xsDown>
-          <Info url={this.state.url} toggleInvite={this.toggleInvite} invitation={this.state.invitation} history={this.props.history} chatId={this.props.match.params.chat} chat reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
-        </Hidden>
-        <Chat id={this.state.user._id} conversation={this.state.conversation} />
-      </div>
-    );
-
+    // Check query string to see if user entered from a referral
+    const urlParams = new URLSearchParams(window.location.search);
+    const myParam = urlParams.get("isreferral");
+    if (myParam == "true") {
+      // Render invitation prompt here
+    }
+    if (this.props.chat)
+      return (
+        <div style={{ padding: "0", margin: "0" }} className="row">
+          <Hidden xsDown>
+            <Info
+              url={this.state.url}
+              toggleInvite={this.toggleInvite}
+              invitation={this.state.invitation}
+              history={this.props.history}
+              chatId={this.props.match.params.chat}
+              chat
+              reload={this.reload}
+              search={this.state.search}
+              updateSearch={this.updateSearch}
+              contacts={this.state.contacts}
+              invitations={this.state.invitations}
+              user={this.state.user}
+            />
+          </Hidden>
+          <Chat
+            id={this.state.user._id}
+            conversation={this.state.conversation}
+          />
+        </div>
+      );
     return (
       <div style={{ padding: "0", margin: "0" }} className="row">
-        <Info url={this.state.url} toggleInvite={this.toggleInvite} invitation={this.state.invitation} history={this.props.history} reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
+        <Info
+          url={this.state.url}
+          toggleInvite={this.toggleInvite}
+          invitation={this.state.invitation}
+          history={this.props.history}
+          reload={this.reload}
+          search={this.state.search}
+          updateSearch={this.updateSearch}
+          contacts={this.state.contacts}
+          invitations={this.state.invitations}
+          user={this.state.user}
+        />
         <Hidden xsDown>
-          <Chat id={this.state.user._id} conversation={this.state.conversation} />
+          <Chat
+            id={this.state.user._id}
+            conversation={this.state.conversation}
+          />
         </Hidden>
       </div>
     );
