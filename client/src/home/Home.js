@@ -49,15 +49,11 @@ export default class Home extends React.Component {
     // Get URL:
     this.tinyUrl();
 
-    // Get Query String:
-    const { chat } = queryString.parse(this.props.location.search);
-
     // API Call:
     const invitations = await invitationService.getAll();
     const contacts = await userService.getContacts(this.state.search);
     const conversations = await conversationService.getAll(this.state.search);
 
-    console.log(contacts);
     // Set State:
     this.setState({
       contacts,
@@ -105,7 +101,8 @@ export default class Home extends React.Component {
       conversations: [],
       users: [],
       search: "",
-      url: ""
+      url: "",
+      chatId: queryString.parse(this.props.location.search).chat || ""
     };
 
     this.updateSearch = this.updateSearch.bind(this);
@@ -116,17 +113,45 @@ export default class Home extends React.Component {
     if (this.props.chat) return (
       <div style={{ padding: "0", margin: "0" }} className="row">
         <Hidden xsDown>
-          <Info url={this.state.url} users={this.state.users} invitation={this.state.invitation} history={this.props.history} chatId={this.props.match.params.chat} chat reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
+        <Info
+          url={this.state.url}
+          users={this.state.users}
+          invitation={this.state.invitation}
+          history={this.props.history}
+          search={this.state.search}
+          updateSearch={this.updateSearch}
+          contacts={this.state.contacts}
+          invitations={this.state.invitations}
+          user={this.state.user}
+        />
         </Hidden>
-        <Chat id={this.state.user._id} conversation={this.state.conversation} />
+        <Chat
+          chatId={this.state.chatId}
+          user={this.state.user}
+          conversation={this.state.conversation}
+        />
       </div>
     );
 
     return (
       <div style={{ padding: "0", margin: "0" }} className="row">
-        <Info id={this.state.user._id} url={this.state.url} users={this.state.users} invitation={this.state.invitation} history={this.props.history} reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
+        <Info
+          url={this.state.url}
+          users={this.state.users}
+          invitation={this.state.invitation}
+          history={this.props.history}
+          search={this.state.search}
+          updateSearch={this.updateSearch}
+          contacts={this.state.contacts}
+          invitations={this.state.invitations}
+          user={this.state.user}
+        />
         <Hidden xsDown>
-          <Chat id={this.state.user._id} conversation={this.state.conversation} />
+        <Chat
+          chatId={this.state.chatId}
+          user={this.state.user}
+          conversation={this.state.conversation}
+        />
         </Hidden>
       </div>
     );
