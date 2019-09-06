@@ -31,13 +31,9 @@ export default function Contacts(props) {
   const classes = useStyles();
 
   // Contact Components:
-  const ContactList = props.contacts
-    .filter( contact => {
-      return contact.name.indexOf(props.search) === -1;
-    })
-    .map( (contact, index) => (
-      <Contact key={index} contact={contact} />
-    ));
+  const ContactList = props.contacts.map( (contact, index) => (
+    <Contact key={index} contact={contact} />
+  ));
 
   return (
     <div className={classes.contactsDiv}>

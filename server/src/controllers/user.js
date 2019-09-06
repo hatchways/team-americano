@@ -1,28 +1,31 @@
 // ==============================================
-// Auth Route Controllers
+// User Route Controllers
 // ==============================================
 
 // Dependencies:
 const User = require("../models/user");
 
 // Controllers:
-exports.getAuthenticatedUser = async (req, res, next) => {
-  // Get the authenticated user, a list of their conversations
-  // and a list of all their contacts:
+exports.getAllUsers = async (req, res, next) => {
+  // Get all users matching a query string:
   try {
-    const data = await User.findById(req.user._id)
-      .select("-password")
-      .populate("conversations")
-      .populate("contacts", "name email");
+    const regex = { "$regex": req.query.q || "", "$options": "i" };
+    const data = await User
+      .find({"$and": [
+        { "$or": [{ "name": regex }, { "email": regex }]},
+        { "_id": { "$ne": req.user._id, "$nin": req.user.contacts }}
+      ]})
+      .select("_id name email")
+      .limit(parseInt(req.query.limit) || 20);
 
     return res.status(200).json({
-      message: "Successfully fetched user information.",
+      message: "Successfully fetched all users from server.",
       data
     });
-  } catch (e) {
+  } catch(e) {
     return res.status(500).json({
-      message: "Error(s) getting authenticated user information.",
+      message: "Error(s) fetching users from server.",
       errors: e
     });
   }
-};
+}
