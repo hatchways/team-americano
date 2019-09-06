@@ -9,9 +9,12 @@ const User = require("../models/user");
 exports.getAllUsers = async (req, res, next) => {
   // Get all users matching a query string:
   try {
-    const query = { "$regex": req.query.q || "", "$options": "$i" };
+    const regex = { "$regex": req.query.q || "", "$options": "i" };
     const data = await User
-      .find({"$and": [{ "$or": [{ "email": query, "name": query }]}, { "_id": { "$ne": req.user._id, "$nin": req.user.contacts }}]})
+      .find({"$and": [
+        { "$or": [{ "name": regex }, { "email": regex }]},
+        { "_id": { "$ne": req.user._id, "$nin": req.user.contacts }}
+      ]})
       .select("_id name email")
       .limit(parseInt(req.query.limit) || 20);
 

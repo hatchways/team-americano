@@ -64,7 +64,7 @@ export default function User(props) {
         </ListItemAvatar>
         <ListItemText disableTypography primary={ props.user.name } />
         <div className={classes.userActionsDiv}>
-          <Button onClick={ invite } className={classes.userActionButton}>Invite</Button>
+          <Button onClick={ invite() } className={classes.userActionButton}>Invite</Button>
         </div>
       </ListItem>
     </Paper>
