@@ -24,5 +24,6 @@ router.use(
   passport.authenticate("jwt", { session: false }),
   require("./conversation")
 );
+router.use("/api/referral", require("./referral"));
 
 module.exports = router;

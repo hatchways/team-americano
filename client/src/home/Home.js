@@ -5,6 +5,7 @@
 // Dependencies:
 import React from "react";
 import queryString from "query-string";
+import { tiny } from "tiny-shortener";
 import { Message } from "react-chat-ui";
 
 // Services:
@@ -20,9 +21,33 @@ import Hidden from "@material-ui/core/Hidden";
 // Home Component:
 export default class Home extends React.Component {
 
+  tinyUrl = async () => {
+    const { location } = window;
+    let url = `${location.protocol}//`;
+    if (process.env.NODE_ENV === "development") {
+      url += `${location.hostname}:${location.port}`;
+    } else {
+      url += `${location.hostname}`;
+    }
+    try {
+      const alias = await tiny(url, "chat");
+      this.setState({
+        url: alias
+      });
+    } catch(e) {
+      console.log("Error", e);
+      this.setState({
+        url
+      })
+    }
+  }
+
   componentDidMount = async () => {
     // Set Document Title:
     document.title = "Start conversing with friends today!";
+
+    // Get URL:
+    this.tinyUrl();
 
     // Get Query String:
     const { chat, q } = queryString.parse(this.props.location.search);
@@ -78,16 +103,18 @@ export default class Home extends React.Component {
       contacts: [],
       users: [],
       search: ""
+      url: ""
     };
 
     this.updateSearch = this.updateSearch.bind(this);
+    this.tinyUrl = this.tinyUrl.bind(this);
   }
 
   render() {
     if (this.props.chat) return (
       <div style={{ padding: "0", margin: "0" }} className="row">
         <Hidden xsDown>
-          <Info users={this.state.users} invitation={this.state.invitation} history={this.props.history} chatId={this.props.match.params.chat} chat reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
+          <Info url={this.state.url} users={this.state.users} invitation={this.state.invitation} history={this.props.history} chatId={this.props.match.params.chat} chat reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
         </Hidden>
         <Chat id={this.state.user._id} conversation={this.state.conversation} />
       </div>
@@ -95,7 +122,7 @@ export default class Home extends React.Component {
 
     return (
       <div style={{ padding: "0", margin: "0" }} className="row">
-        <Info users={this.state.users} invitation={this.state.invitation} history={this.props.history} reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
+        <Info url={this.state.url} users={this.state.users} invitation={this.state.invitation} history={this.props.history} reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
         <Hidden xsDown>
           <Chat id={this.state.user._id} conversation={this.state.conversation} />
         </Hidden>

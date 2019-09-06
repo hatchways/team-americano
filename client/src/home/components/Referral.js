@@ -15,7 +15,7 @@ import { makeStyles } from "@material-ui/styles";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 // Referral Component:
-export default function Referral() {
+export default function Referral(props) {
   const [open, setOpen] = React.useState(false);
 
   function handleClickOpen() {
@@ -31,6 +31,23 @@ export default function Referral() {
     let text = document.getElementById("referralLink");
     text.select();
     document.execCommand("copy");
+  }
+
+  function sendReferral(e) {
+    e.preventDefault();
+
+    let receiverEmail = document.getElementById("email").value;
+    let referralLink = document.getElementById("referralLink").value;
+
+    fetch("/api/referral/referral", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      mode: "cors",
+      body: JSON.stringify({
+        email: receiverEmail,
+        link: referralLink
+      })
+    });
   }
 
   const theme = createMuiTheme({
@@ -96,7 +113,7 @@ export default function Referral() {
             Invite friends to messenger
           </DialogTitle>
           <DialogContent>
-            <form>
+            <form action="localhost:3001" method="post">
               <p>Send your friends an invite email</p>
               <TextField
                 variant="outlined"
@@ -109,12 +126,11 @@ export default function Referral() {
               <TextField
                 variant="outlined"
                 id="referralLink"
-                value="https://www.messenger.com/join/363274"
+                value={props.url + "/join/" + props.id}
                 fullWidth
                 InputProps={{
                   endAdornment: (
                     <Button
-                      type="submit"
                       variant="contained"
                       color="primary"
                       className={classes.copyLinkButton}
@@ -130,6 +146,7 @@ export default function Referral() {
                 variant="contained"
                 color="primary"
                 className={classes.button}
+                onClick={sendReferral}
               >
                 Send Invite
               </Button>

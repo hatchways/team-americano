@@ -73,10 +73,12 @@ export default function Info(props) {
         </nav>
         <Feed
           users={props.users}
+          id={props.user._id}
           search={props.search}
           updateSearch={props.updateSearch}
           invitations={props.invitations}
           contacts={props.contacts}
+          url={props.url}
         />
       </div>
     </div>
