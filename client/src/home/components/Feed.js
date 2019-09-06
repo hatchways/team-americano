@@ -38,7 +38,7 @@ export default function Feed(props) {
         search={props.search}
         updateSearch={props.updateSearch}
       />
-      <Referral />
+      <Referral url={props.url} id={props.id} />
       {
         invitation ? (
           <Invitations id={props.id} search={ props.search } users={ props.users } invitations={ props.invitations } />
