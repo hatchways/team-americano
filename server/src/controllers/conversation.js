@@ -13,7 +13,11 @@ exports.fetchAllConversations = async (req, res, next) => {
   try {
     const data = await User.findById(req.user._id)
       .select("conversations")
-      .populate("conversations");
+      .populate({
+        path: "conversations",
+        select: "users",
+        populate: { path: "users", match: { _id: { "$ne": req.user._id }}, select: "_id name email" },
+      });
 
     return res.status(200).json({
       message: "Successfully fetched user conversations",
@@ -75,7 +79,10 @@ exports.fetchConversation = async (req, res, next) => {
 
     // Make sure user is in conversation:
     if (!convsersation.users.some( user => user.equals(req.user._id))) {
-      throw new Error("Unauthenticated.");
+      return res.status(401).json({
+        message: "Error(s) fetching conversation.",
+        errors: "Unauthorized!"
+      })
     }
 
     const promises = await conversation.messages.map( message => {
@@ -94,17 +101,15 @@ exports.fetchConversation = async (req, res, next) => {
         });
     });
 
-    const status = Promise.all(promises).then( results => {
-      return res.status(200).json({
-        message: "Successfully fetched conversation.",
-        data: {
-          ...conversation,
-          messages: results
-        }
-      });
-    });
+    const messages = await Promise.all(promises);
 
-    return await status;
+    return res.status(200).json({
+      message: "Successfully fetched conversation",
+      data: {
+        ...conversation,
+        messages
+      }
+    })
   } catch(e) {
     res.status(500).json({
       message: "Error(s) fetching conversation.",

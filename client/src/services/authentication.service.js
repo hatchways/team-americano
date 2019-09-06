@@ -75,6 +75,8 @@ class Authentication {
       this.authenticated = true;
     } catch(e) {
       this.authenticated = false;
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem("token");
     }
   }
 

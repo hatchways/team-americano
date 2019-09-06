@@ -113,7 +113,7 @@ export default class Home extends React.Component {
     if (this.props.chat) return (
       <div style={{ padding: "0", margin: "0" }} className="row">
         <Hidden xsDown>
-          <Info id={this.state.user._id} url={this.state.url} users={this.state.users} invitation={this.state.invitation} history={this.props.history} chatId={this.props.match.params.chat} chat reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
+          <Info url={this.state.url} users={this.state.users} invitation={this.state.invitation} history={this.props.history} chatId={this.props.match.params.chat} chat reload={this.reload} search={this.state.search} updateSearch={this.updateSearch} contacts={this.state.contacts} invitations={this.state.invitations} user={this.state.user} />
         </Hidden>
         <Chat id={this.state.user._id} conversation={this.state.conversation} />
       </div>

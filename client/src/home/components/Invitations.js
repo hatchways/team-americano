@@ -33,7 +33,7 @@ export default function Invitations(props) {
 
   // Invitation Components:
   const InvitationList = props.invitations.map( (invitation, index) => (
-    <Invitation id={ props.id } key={ index } invitation={ invitation } />
+    <Invitation history={ props.history } id={ props.id } key={ index } invitation={ invitation } />
   ));
 
   const UserList = props.users.map( (user, index) => (

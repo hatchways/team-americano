@@ -72,7 +72,6 @@ export default function Info(props) {
           </div>
         </nav>
         <Feed
-          id={props.id}
           users={props.users}
           id={props.user._id}
           search={props.search}
@@ -80,6 +79,7 @@ export default function Info(props) {
           invitations={props.invitations}
           contacts={props.contacts}
           url={props.url}
+          history={props.history}
         />
       </div>
     </div>

@@ -41,7 +41,7 @@ export default function Feed(props) {
       <Referral url={props.url} id={props.id} />
       {
         invitation ? (
-          <Invitations id={props.id} search={ props.search } users={ props.users } invitations={ props.invitations } />
+          <Invitations history={props.history} id={props.id} search={ props.search } users={ props.users } invitations={ props.invitations } />
         ) : (
           <Contacts contacts={ props.contacts } />
         )
