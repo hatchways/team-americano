@@ -25,7 +25,7 @@ exports.sendReferral = async (req, res) => {
     from: '"Team Americano" teamamericano@gmail.com',
     to: req.body.email,
     subject: "Invitation to Team Americano's app",
-    html: `<h1>Check out Team Americano's app by clicking this referral link!</h1><a href="">${req.body.link}</a>`
+    html: `<h1>Check out Team Americano's app by clicking this referral link!</h1><a href=${req.body.link}>${req.body.link}</a>`
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
