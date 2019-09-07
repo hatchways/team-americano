@@ -46,10 +46,6 @@ const userSchema = new Schema({
   contacts: [{
     type: objectId,
     ref: "User"
-  }],
-  conversations: [{
-    type: objectId,
-    ref: "Conversation"
   }]
 });
 

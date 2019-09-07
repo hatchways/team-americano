@@ -4,24 +4,24 @@
 
 // Dependencies:
 const Conversation = require("../models/conversation");
-const User = require("../models/user");
 const { Translate } = require("@google-cloud/translate");
 
 // Controllers:
 exports.fetchAllConversations = async (req, res, next) => {
   // Get all conversations user is participating in:
   try {
-    const data = await User.findById(req.user._id)
-      .select("conversations")
+    const data = await Conversation
+      .find({ "_id": { "$in": req.user._id }})
+      .select("users")
       .populate({
-        path: "conversations",
-        select: "users",
-        populate: { path: "users", match: { _id: { "$ne": req.user._id }}, select: "_id name email" },
+        path: "users",
+        select: "_id name email",
+        match: { _id: { "$ne": req.user._id }}
       });
 
     return res.status(200).json({
       message: "Successfully fetched user conversations",
-      data: data.conversations
+      data
     });
   } catch(e) {
     res.status(500).json({
@@ -55,13 +55,12 @@ exports.createConversation = async (req, res, next) => {
     });
     const result = await conversation.save();
 
-    await Promise.all(await req.body.users.map( async userId => {
-      await User.findByIdAndUpdate(userId, { "$push": { conversations: result._id }});
-    }));
+    await Conversation.findByIdAndUpdate(result._id, {"$push": {"users": {"$each": req.body.users}}});
 
     return res.status(201).json({
       message: "Successfully created new conversation.",
-      data: result._id
+      data: result._id,
+      result
     });
   } catch(e) {
     return res.status(500).json({

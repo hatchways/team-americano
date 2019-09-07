@@ -48,15 +48,11 @@ export default class Home extends React.Component {
     // Get URL:
     this.tinyUrl();
 
-    // Get Query String:
-    const { chat } = queryString.parse(this.props.location.search);
-
     // API Call:
     const invitations = await invitationService.getAll();
     const contacts = await userService.getContacts(this.state.search);
     const conversations = await conversationService.getAll(this.state.search);
 
-    console.log(contacts);
     // Set State:
     this.setState({
       contacts,
@@ -108,7 +104,8 @@ export default class Home extends React.Component {
       conversations: [],
       users: [],
       search: "",
-      url: ""
+      url: "",
+      chatId: queryString.parse(this.props.location.search).chat || ""
     };
 
     this.updateSearch = this.updateSearch.bind(this);
@@ -131,7 +128,6 @@ export default class Home extends React.Component {
               users={this.state.users}
               invitation={this.state.invitation}
               history={this.props.history}
-              chatId={this.props.match.params.chat}
               search={this.state.search}
               updateSearch={this.updateSearch}
               contacts={this.state.contacts}
@@ -140,7 +136,8 @@ export default class Home extends React.Component {
             />
           </Hidden>
           <Chat
-            id={this.state.user._id}
+            chatId={this.state.chatId}
+            user={this.state.user}
             conversation={this.state.conversation}
           />
         </div>
@@ -152,7 +149,6 @@ export default class Home extends React.Component {
           users={this.state.users}
           invitation={this.state.invitation}
           history={this.props.history}
-          chatId={this.props.match.params.chat}
           search={this.state.search}
           updateSearch={this.updateSearch}
           contacts={this.state.contacts}
@@ -161,7 +157,8 @@ export default class Home extends React.Component {
         />
         <Hidden xsDown>
           <Chat
-            id={this.state.user._id}
+            chatId={this.state.chatId}
+            user={this.state.user}
             conversation={this.state.conversation}
           />
         </Hidden>

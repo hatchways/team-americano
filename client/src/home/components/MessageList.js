@@ -4,7 +4,6 @@
 
 // Dependencies:
 import React from "react";
-import { useState } from "react";
 import { ChatFeed, Message } from "react-chat-ui";
 
 // Message List Component:
@@ -13,7 +12,6 @@ export default function MessageList(props) {
   // Listening to "new message" event emitted from the server
   // Add msg content to messages list
   props.connection.on("new message", function(msg) {
-    msg = JSON.parse(msg);
     console.log(msg);
   });
 

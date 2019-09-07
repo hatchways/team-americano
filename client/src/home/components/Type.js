@@ -8,18 +8,16 @@ import React from "react";
 // Material UI:
 import TextField from "@material-ui/core/TextField";
 
-//Socket IO:
-import * as io from "socket.io-client";
-
 // Type Component:
 export default function Type(props) {
   // Emit "chat message" event to server when user hits enter
   function handleInput(e) {
     if (e.keyCode === 13) {
       props.connection.emit("chat message", {
-        timestamp: Date(Date.now()).toString(),
-        sender: props.id,
-        content: e.target.value
+        sender: props.user._id,
+        content: e.target.value,
+        language: props.user.language,
+        conversation: props.chatId
       });
       e.preventDefault();
       e.target.value = "";

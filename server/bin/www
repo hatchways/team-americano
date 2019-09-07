@@ -28,6 +28,8 @@ var server = http.createServer(app);
  */
 var socket = require("socket.io");
 var io = socket(server);
+
+const Conversation = require("../src/models/conversation.js");
 const Message = require("../src/models/message.js");
 
 io.on("connection", function(socket) {
@@ -38,9 +40,24 @@ io.on("connection", function(socket) {
   });
 
   // Broadcast message to all clients upon receiving "chat message" event from Type component
-  socket.on("chat message", function(msg) {
-    console.log("messageData: " + JSON.stringify(msg));
-    socket.broadcast.emit("new message", JSON.stringify(msg));
+  socket.on("chat message", async function(msg) {
+    socket.broadcast.emit("new message", msg);
+
+    const message = new Message({
+      conversation: msg.conversation,
+      language: msg.language,
+      sender: msg.sender,
+      content: msg.content,
+    });
+
+    try {
+      const result = await message.save();
+      await Conversation.findByIdAndUpdate(message.conversation, { "$push": { "messages": result._id }});
+    } catch(e) {
+      console.log(e);
+      io.emit("error", "Error(s) storing message to database.");
+    }
+
   });
 
   // User is typing
