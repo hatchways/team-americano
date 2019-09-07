@@ -28,6 +28,6 @@ export default class Router extends React.Component {
           <PrivateRoute exact path="/" component={Home} />
         </Switch>
       </BrowserRouter>
-    );
+    )
   }
 }

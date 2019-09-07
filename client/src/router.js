@@ -3,38 +3,31 @@
 // ==============================================
 
 // Dependencies:
-import React from 'react';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 // Components:
-import Register from './auth/Register';
-import Login from './auth/Login';
-import Home from './home/Home';
-
-// Function to check user authentication:
-const checkAuth = () => {
-  return Boolean(localStorage.getItem("token"));
-}
+import { PrivateRoute } from "./AuthRequired";
+import Register from "./auth/Register";
+import Login from "./auth/Login";
+import Home from "./home/Home";
 
 // Router Component:
 export default class Router extends React.Component {
-
   render() {
     return (
       <BrowserRouter>
+        <Switch>
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
-          <Route exact={true} path="/" render={props => {
-            return (checkAuth() ?
-              <Home {...props} /> : <Redirect to="/login" />
-            )}}
+          <Route
+            path="/join/:user_id"
+            render={props => <Register {...props} isReferral={true} />}
           />
-          <Route path="/chat/:chat" render={props => {
-            return (checkAuth() ?
-              <Home {...props} chat /> : <Redirect to="/login" />
-            )}}
-          />
+          <PrivateRoute exact chat path="/chat" component={Home} />
+          <PrivateRoute exact path="/" component={Home} />
+        </Switch>
       </BrowserRouter>
-    );
+    )
   }
 }
