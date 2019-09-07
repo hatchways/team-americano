@@ -56,7 +56,7 @@ export default function Invitation(props) {
     return async () => {
       try {
         await invitationService.respondToInvitation(props.invitation._id, response);
-        const id = await conversationService.create(props.invitation._id, props.id);
+        const id = await conversationService.create(props.invitation.requester._id, props.id);
 
         props.history.push("/chat?chat=" + id);
       } catch(e) {
