@@ -11,10 +11,10 @@ exports.fetchAllConversations = async (req, res, next) => {
   // Get all conversations user is participating in:
   try {
     const data = await Conversation
-      .find({ "_id": { "$in": req.user._id }})
-      .select("users")
+      .find({ "members": req.user._id })
+      .select("members _id")
       .populate({
-        path: "users",
+        path: "members",
         select: "_id name email",
         match: { _id: { "$ne": req.user._id }}
       });
@@ -24,6 +24,7 @@ exports.fetchAllConversations = async (req, res, next) => {
       data
     });
   } catch(e) {
+    console.log(e);
     res.status(500).json({
       message: "Error(s) fetching all conversaitons.",
       errors: e
@@ -51,11 +52,9 @@ exports.createConversation = async (req, res, next) => {
     }
 
     const conversation = new Conversation({
-      users: req.body.users
+      members: req.body.users
     });
     const result = await conversation.save();
-
-    await Conversation.findByIdAndUpdate(result._id, {"$push": {"users": {"$each": req.body.users}}});
 
     return res.status(201).json({
       message: "Successfully created new conversation.",
